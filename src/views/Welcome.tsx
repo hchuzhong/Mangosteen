@@ -40,7 +40,7 @@ export const Welcome = defineComponent({
             <h2>{curStepConfig.value.text1}<br/>{curStepConfig.value.text2}</h2>
           </div>
         </main>
-        <footer>
+        <footer class={s.actions}>
           <button class={s.fake}>跳过</button>
           <button onClick={nextAction}>下一页</button>
           <button onClick={toStartPage}>跳过</button>

@@ -1,8 +1,9 @@
 .wrapper {
-    height: 100vh;
+    height: calc(100vh - var(--welcome-nav-height));
     display: flex;
     flex-direction: column;
     background: linear-gradient(to bottom, var(--welcome-bg-start) 0%, var(--welcome-bg-end) 100%);
+    margin-bottom: var(--welcome-nav-height);
     > header {
         flex-shrink: 0;
         display: flex;
@@ -41,13 +42,21 @@
             }
         }
     }
-    > footer {
+    > .actions {
+        position: fixed;
+        z-index: var(--z-index-bottom-nav);
+        background: var(--welcome-bg-end);
+        left: 0;
+        bottom: 0;
+        width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         font-size: 24px;
         height: var(--welcome-nav-height);
-        padding: 8px 16px;
+        padding: 0 16px;
+        color: var(--welcome-text);
+        padding-bottom: var(--welcome-nav-gap);
         > .fake{visibility: hidden;}
         > button {color: var(--welcome-text);}
     }
