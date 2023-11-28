@@ -2,17 +2,53 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    background: linear-gradient(to bottom, var(--welcome-bg-start) 0%, var(--welcome-bg-end) 100%);
     > header {
         flex-shrink: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        padding-top: 66px;
+        color: var(--welcome-header-text);
+        > img {
+            width: 68px;
+            height: 68px;
+        }
     }
     > main {
         flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        > .card{
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--welcome-card-bg);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 16px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            > h2 {
+                margin-top: 40px;
+            }
+            > img {
+                width: 140px;
+                height: 140px;
+            }
+        }
     }
     > footer {
-        flex-shrink: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 24px;
+        height: var(--welcome-nav-height);
+        padding: 8px 16px;
+        > .fake{visibility: hidden;}
+        > button {color: var(--welcome-text);}
     }
 }
