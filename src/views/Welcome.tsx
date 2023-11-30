@@ -42,7 +42,7 @@ export const Welcome = defineComponent({
         </main>
         <footer class={s.actions}>
           <button class={s.fake}>跳过</button>
-          <button onClick={nextAction}>下一页</button>
+          <button onClick={nextAction}>{curStepConfig.value.lastStep ? '完成' : '下一页'}</button>
           <button onClick={toStartPage}>跳过</button>
         </footer>
     </div>
