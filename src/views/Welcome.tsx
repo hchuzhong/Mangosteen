@@ -1,11 +1,17 @@
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watchEffect } from 'vue';
 import s from './Welcome.module.scss';
 import { useRouter } from 'vue-router';
+import { useSwipe } from '../hooks/useSwipe';
 
 export const Welcome = defineComponent({
   setup: (props, context) => {
     const router = useRouter()
     const refCurStep = ref(0)
+    const main = ref<HTMLElement>()
+    const {swiping, direction} = useSwipe(main)
+    watchEffect(() => {
+      console.log(swiping.value, direction.value);
+    })
     const stepConfig = [
       {icon: 'pig', text1: '会挣钱', text2: '还要会省钱'},
       {icon: 'clock', text1: '每日提醒', text2: '不会漏掉每一笔账单'},
@@ -29,7 +35,7 @@ export const Welcome = defineComponent({
             <svg><use xlinkHref="#mangosteen"/></svg>
             <h1>山竹记账</h1>
         </header>
-        <main>
+        <main ref={main}>
           <div class={s.card}>
             <svg><use xlinkHref={'#' + curStepConfig.value.icon}/></svg>
             <h2>{curStepConfig.value.text1}<br/>{curStepConfig.value.text2}</h2>
