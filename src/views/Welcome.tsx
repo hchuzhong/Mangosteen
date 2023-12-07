@@ -1,52 +1,50 @@
-import { defineComponent, ref, watchEffect } from 'vue';
-import s from './Welcome.module.scss';
-import { useRouter } from 'vue-router';
+import { defineComponent, ref, Transition, VNode, watchEffect } from 'vue';
+import { RouteLocationNormalizedLoaded, RouterView, useRoute, useRouter } from 'vue-router';
 import { useSwipe } from '../hooks/useSwipe';
+import { throttle } from '../shared/throttle';
+import s from './Welcome.module.scss'
 
+const pushMap: Record<string, string> = {
+  'Welcome1': '/welcome/2',
+  'Welcome2': '/welcome/3',
+  'Welcome3': '/welcome/4',
+  'Welcome4': '/start',
+}
 export const Welcome = defineComponent({
   setup: (props, context) => {
-    const router = useRouter()
-    const refCurStep = ref(0)
     const main = ref<HTMLElement>()
-    const {swiping, direction} = useSwipe(main)
+    const { direction, swiping } = useSwipe(main, { beforeStart: e => e.preventDefault() })
+    const route = useRoute()
+    const router = useRouter()
+    const replace = throttle(() => {
+      const name = (route.name || 'Welcome1').toString()
+      router.replace(pushMap[name])
+    }, 500)
     watchEffect(() => {
-      console.log(swiping.value, direction.value);
+      if (swiping.value && direction.value === 'left') {
+        replace()
+      }
     })
-    const stepConfig = [
-      {icon: 'pig', text1: '会挣钱', text2: '还要会省钱'},
-      {icon: 'clock', text1: '每日提醒', text2: '不会漏掉每一笔账单'},
-      {icon: 'statistics', text1: '数据可视化', text2: '收支一目了然'},
-      {icon: 'cloud', text1: '云备份', text2: '再也不怕数据丢失', lastStep: true},
-    ]
-    let curStepConfig = ref(stepConfig[refCurStep.value])
-    const nextAction = () => {
-      if (refCurStep.value === stepConfig.length - 1) return toStartPage()
-      refCurStep.value += 1
-      curStepConfig.value = stepConfig[refCurStep.value]
-    }
-    const toStartPage = () => {
-      router.push('/')
-    }
-    
-    
-    return () => (
-      <div class={s.wrapper}>
-        <header>
-            <svg><use xlinkHref="#mangosteen"/></svg>
-            <h1>山竹记账</h1>
-        </header>
-        <main ref={main}>
-          <div class={s.card}>
-            <svg><use xlinkHref={'#' + curStepConfig.value.icon}/></svg>
-            <h2>{curStepConfig.value.text1}<br/>{curStepConfig.value.text2}</h2>
-          </div>
-        </main>
-        <footer class={s.actions}>
-          <button class={s.fake}>跳过</button>
-          <button onClick={nextAction}>{curStepConfig.value.lastStep ? '完成' : '下一页'}</button>
-          <button onClick={toStartPage}>跳过</button>
-        </footer>
+    return () => <div class={s.wrapper}>
+      <header>
+        <svg>
+          <use xlinkHref='#mangosteen'></use>
+        </svg>
+        <h1>山竹记账</h1>
+      </header>
+      <main class={s.main} ref={main}>
+        <RouterView name="main">
+          {({ Component: X, route: R }: { Component: VNode, route: RouteLocationNormalizedLoaded }) =>
+            <Transition enterFromClass={s.slide_fade_enter_from} enterActiveClass={s.slide_fade_enter_active}
+              leaveToClass={s.slide_fade_leave_to} leaveActiveClass={s.slide_fade_leave_active}>
+              {X}
+            </Transition>
+          }
+        </RouterView>
+      </main>
+      <footer>
+        <RouterView name="footer" />
+      </footer>
     </div>
-    )
   }
 })

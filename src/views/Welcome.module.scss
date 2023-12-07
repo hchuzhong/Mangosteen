@@ -2,7 +2,7 @@
     height: calc(100vh - var(--welcome-nav-height));
     display: flex;
     flex-direction: column;
-    background: linear-gradient(to bottom, var(--welcome-bg-start) 0%, var(--welcome-bg-end) 100%);
+    background-image: linear-gradient(to bottom, var(--welcome-bg-start) 0%, var(--welcome-bg-end) 100%);
     margin-bottom: var(--welcome-nav-height);
     > header {
         flex-shrink: 0;
@@ -11,53 +11,37 @@
         justify-content: center;
         align-items: center;
         padding-top: 66px;
-        color: var(--welcome-header-text);
-        > img {
-            width: 68px;
-            height: 68px;
+        color: #D4D4EE;
+        > svg {
+        width: 64px;
+        height: 69px;
         }
     }
     > main {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
-        > .card{
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            background: var(--welcome-card-bg);
-            border-radius: 8px;
-            padding: 16px;
-            margin: 16px 16px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            > h2 {
-                margin-top: 40px;
-            }
-            > img {
-                width: 140px;
-                height: 140px;
-            }
-        }
+        position: relative;
+        margin: 16px 16px var(--welcome-nav-gap);
     }
-    > .actions {
-        position: fixed;
-        z-index: var(--z-index-bottom-nav);
-        background: var(--welcome-bg-end);
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 24px;
-        height: var(--welcome-nav-height);
-        padding: 0 16px;
-        color: var(--welcome-text);
-        padding-bottom: var(--welcome-nav-gap);
-        > .fake{visibility: hidden;}
-        > button {color: var(--welcome-text);}
+    > footer {
+        flex-shrink: 0;
     }
+}
+
+.slide_fade_enter_active,
+.slide_fade_leave_active {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transition: all var(--transition-duration) ease-out;
+}
+
+.slide_fade_enter_from {
+    transform: translateX(100vw);
+}
+.slide_fade_leave_to {
+    transform: translateX(-100vw);
 }
