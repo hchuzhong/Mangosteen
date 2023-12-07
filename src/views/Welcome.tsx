@@ -3,6 +3,7 @@ import { RouteLocationNormalizedLoaded, RouterView, useRoute, useRouter } from '
 import { useSwipe } from '../hooks/useSwipe';
 import { throttle } from '../shared/throttle';
 import s from './Welcome.module.scss'
+import { Icon } from '../shared/Icon';
 
 const pushMap: Record<string, string> = {
   'Welcome1': '/welcome/2',
@@ -27,9 +28,7 @@ export const Welcome = defineComponent({
     })
     return () => <div class={s.wrapper}>
       <header>
-        <svg>
-          <use xlinkHref='#mangosteen'></use>
-        </svg>
+        <Icon name="mangosteen" />
         <h1>山竹记账</h1>
       </header>
       <main class={s.main} ref={main}>
