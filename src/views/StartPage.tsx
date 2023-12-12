@@ -4,7 +4,6 @@ import s from './StartPage.module.scss';
 import { FloatButton } from '../shared/FloatButton';
 import { Center } from '../shared/Center';
 import { Icon } from '../shared/Icon';
-import { Navbar } from '../shared/Navbar';
 import { Overlay } from '../shared/Overlay';
 import { RouterLink } from 'vue-router';
 import { MainLayout } from '../layouts/MainLayout';
@@ -16,26 +15,24 @@ export const StartPage = defineComponent({
             overlayVisible.value = !overlayVisible.value
         }
         return () => (
-            <MainLayout>{
-                {
-                    title: () => '山竹记账',
-                    icon: () => <Icon name='menu' class={s.navIcon} onClick={onClickMenu} />,
-                    default: () => <>
-                        <Center class={s.pig_wrapper}>
-                            <Icon name='pig' class={s.pig} />
-                        </Center>
-                        <div class={s.button_wrapper}>
-                            <RouterLink to='/items/create'>
-                                <Button class={s.button}>开始记账</Button>
-                            </RouterLink>
-                        </div>
+            <MainLayout>{{
+                title: () => '山竹记账',
+                icon: () => <Icon name='menu' class={s.navIcon} onClick={onClickMenu} />,
+                default: () => <>
+                    <Center class={s.pig_wrapper}>
+                        <Icon name='pig' class={s.pig} />
+                    </Center>
+                    <div class={s.button_wrapper}>
                         <RouterLink to='/items/create'>
-                            <FloatButton iconName='add' />
+                            <Button class={s.button}>开始记账</Button>
                         </RouterLink>
-                        {overlayVisible.value && <Overlay onClose={() => overlayVisible.value = false} />}
-                    </>
-                }
-            }</MainLayout>
+                    </div>
+                    <RouterLink to='/items/create'>
+                        <FloatButton iconName='add' />
+                    </RouterLink>
+                    {overlayVisible.value && <Overlay onClose={() => overlayVisible.value = false} />}
+                </>
+            }}</MainLayout>
         )
     }
 })
