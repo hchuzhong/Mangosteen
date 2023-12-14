@@ -1,8 +1,8 @@
 .form {
-    padding: 16px;
+    padding: 0 16px;
 }
 .formRow {
-    margin-top: 8px;
+    margin: 16px 0;
 }
 .formLabel {
     display: block;
@@ -40,6 +40,5 @@
         margin-top: 4px;
         color: var(--error-color);
         font-size: 12px;
-        height: 16px;
     }
 }

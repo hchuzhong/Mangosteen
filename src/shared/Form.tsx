@@ -1,6 +1,8 @@
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType, ref } from 'vue';
 import s from './Form.module.scss';
 import { EmojiSelect } from './EmojiSelect';
+import { DatetimePicker, Popup } from 'vant';
+import { Time } from './time';
 
 export const Form = defineComponent({
     props: {
@@ -33,6 +35,7 @@ export const FormItem = defineComponent({
         }
     },
     setup: (props, context) => {
+        const refDateVisible = ref(false)
         const content = computed(() => {
             switch (props.type) {
                 case 'text':
@@ -46,7 +49,19 @@ export const FormItem = defineComponent({
                         onUpdateModelValue={value => context.emit('update:modelValue', value)}
                         class={[s.formItem, s.emojiList, props.error ? s.error : '']} />
                 case 'date':
-                    return <input />
+                    return <>
+                        <input readonly value={props.modelValue}
+                        onClick={() => { refDateVisible.value = true }}
+                        class={[s.formItem, s.input]} />
+                        <Popup position='bottom' v-model:show={refDateVisible.value}>
+                            <DatetimePicker value={props.modelValue} type='date' title='选择年月日' 
+                            onConfirm={(date: Date) => {
+                                context.emit('update:modelValue', new Time(date).format())
+                                refDateVisible.value = false
+                            }}
+                            onCancel={() => refDateVisible.value = false} />
+                        </Popup>
+                    </>
                 default:
                     return context.slots.default?.()
             }
@@ -56,7 +71,7 @@ export const FormItem = defineComponent({
                 <label class={s.formLabel}>
                     {props.label && <span class={s.formItem_name}>{props.label}</span>}
                     <div class={s.formItem_value}>{content.value}</div>
-                    <div class={s.formItem_errorHint}><span>{props.error}</span></div>
+                    {props.error && <div class={s.formItem_errorHint}><span>{props.error}</span></div>}
                 </label>
             </div>
         )
