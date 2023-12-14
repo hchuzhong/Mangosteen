@@ -39,12 +39,12 @@ export const FormItem = defineComponent({
                     return <input 
                         value={props.modelValue}
                         onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
-                        class={[s.form, s.input, s.error]} />
+                        class={[s.formItem, s.input, props.error ? s.error : '']} />
                 case 'emojiSelect':
                     return <EmojiSelect
                         modelValue={props.modelValue?.toString()}
                         onUpdateModelValue={value => context.emit('update:modelValue', value)}
-                        class={[s.formItem, s.emojiList, s.error]} />
+                        class={[s.formItem, s.emojiList, props.error ? s.error : '']} />
                 case 'date':
                     return <input />
                 default:
@@ -56,7 +56,7 @@ export const FormItem = defineComponent({
                 <label class={s.formLabel}>
                     {props.label && <span class={s.formItem_name}>{props.label}</span>}
                     <div class={s.formItem_value}>{content.value}</div>
-                    {props.error && <div class={s.formItem_errorHint}><span>{props.error}</span></div>}
+                    <div class={s.formItem_errorHint}><span>{props.error}</span></div>
                 </label>
             </div>
         )
