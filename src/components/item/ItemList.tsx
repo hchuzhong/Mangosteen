@@ -1,12 +1,12 @@
-import { defineComponent, reactive, ref, watchEffect } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 import s from './ItemList.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
-import { Icon } from '../../shared/Icon';
 import { Tab, Tabs } from '../../shared/Tabs';
 import { ItemSummary } from './ItemSummary';
 import { Time } from '../../shared/time';
 import { Overlay } from 'vant';
 import { Form, FormItem } from '../../shared/Form';
+import { OverlayIcon } from '../../shared/Overlay';
 
 export const ItemList = defineComponent({
     setup: (props, context) => {
@@ -28,11 +28,10 @@ export const ItemList = defineComponent({
             e.preventDefault()
             refOverlayVisible.value = false
         }
-        const onUpdateSelected = () => {}
         return () => (
             <MainLayout>{{
                 title: () => '山竹记账',
-                icon: () => <Icon name='menu' />,
+                icon: () => <OverlayIcon />,
                 default: () => <>
                     <Tabs classPrefix={'customTabs'} v-model:selected={refSelected.value} onUpdate:selected={onUpdateSelectedTab}>
                         <Tab name='本月'>
@@ -48,7 +47,7 @@ export const ItemList = defineComponent({
                             <ItemSummary startDate={customTime.start} endDate={customTime.end} />
                         </Tab>
                     </Tabs>
-                    <Overlay show={refOverlayVisible.value} class={s.overlay}>
+                    <Overlay z-index={64} show={refOverlayVisible.value} class={s.overlay}>
                         <div class={s.overlay_inner}>
                             <header>请选择时间</header>
                             <main>
@@ -57,8 +56,7 @@ export const ItemList = defineComponent({
                                     <FormItem type='date' label='结束时间' v-model={customTime.end} />
                                     <FormItem class={s.actions}>
                                         <div class={s.actions}>
-                                            {/* TODO */}
-                                            <button type='button'>取消</button>
+                                            <button type='button' onClick={() => refOverlayVisible.value = false}>取消</button>
                                             <button type='submit'>确认</button>
                                         </div>
                                     </FormItem>
