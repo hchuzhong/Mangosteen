@@ -3,6 +3,7 @@ import s from './Form.module.scss';
 import { EmojiSelect } from './EmojiSelect';
 import { DatetimePicker, Popup } from 'vant';
 import { Time } from './time';
+import { Button } from './Button';
 
 export const Form = defineComponent({
     props: {
@@ -28,11 +29,13 @@ export const FormItem = defineComponent({
             type: [ String, Number]
         },
         type: {
-            type: String as PropType<'text' | 'emojiSelect' | 'date'>
+            type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validationCode'>
         },
         error: {
             type: String
-        }
+        },
+        buttonLabel: String,
+        placeholder: String
     },
     emit: ['update:modelValue'],
     setup: (props, context) => {
@@ -40,8 +43,8 @@ export const FormItem = defineComponent({
         const content = computed(() => {
             switch (props.type) {
                 case 'text':
-                    return <input 
-                        value={props.modelValue}
+                    return <input value={props.modelValue}
+                        placeholder={props.placeholder}
                         onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
                         class={[s.formItem, s.input, props.error ? s.error : '']} />
                 case 'emojiSelect':
@@ -52,6 +55,7 @@ export const FormItem = defineComponent({
                 case 'date':
                     return <>
                         <input readonly value={props.modelValue}
+                        placeholder={props.placeholder}
                         onClick={() => { refDateVisible.value = true }}
                         class={[s.formItem, s.input]} />
                         <Popup position='bottom' v-model:show={refDateVisible.value}>
@@ -62,6 +66,14 @@ export const FormItem = defineComponent({
                             }}
                             onCancel={() => refDateVisible.value = false} />
                         </Popup>
+                    </>
+                case 'validationCode':
+                    return <>
+                        <input value={props.modelValue}
+                        placeholder={props.placeholder}
+                        onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
+                        class={[s.formItem, s.input, s.validationCodeInput, props.error ? s.error : '']} />
+                        <Button class={[s.formItem, s.validationCodeButton]}>{props.buttonLabel}</Button>
                     </>
                 default:
                     return context.slots.default?.()

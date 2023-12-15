@@ -1,0 +1,15 @@
+.logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 42px;
+    .icon {
+        width: 64px;
+        height: 68px;
+    }
+    .appName {
+        color: var(--app-name-text);
+        font-weight: bold;
+    }
+}
