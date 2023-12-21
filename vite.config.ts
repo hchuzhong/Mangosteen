@@ -17,5 +17,12 @@ export default defineConfig({
     styleImport({
       resolves: [VantResolve()],
     }),
-  ]
+  ],
+  server: {
+    proxy: {
+      '/api/v1': {
+        target: 'http://8.134.183.52:3000',
+      }
+    }
+  }
 })
