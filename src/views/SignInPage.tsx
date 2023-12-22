@@ -7,6 +7,7 @@ import { Button } from '../shared/Button';
 import { hasError, validate } from '../shared/validate';
 import { http } from '../shared/Http';
 import { useBool } from '../hooks/useBool';
+import { useRoute, useRouter } from 'vue-router';
 
 export const SignInPage = defineComponent({
     props: {
@@ -15,6 +16,8 @@ export const SignInPage = defineComponent({
         }
     },
     setup: (props, context) => {
+        const router = useRouter()
+        const route = useRoute()
         const { ref: refDisabled, on: enable, off: disable } = useBool(false)
         const refValidationCode = ref()
         const formData = reactive({
@@ -33,7 +36,9 @@ export const SignInPage = defineComponent({
             if (hasError(errors.value)) return
             const response = await http.post<{'jwt': string}>('/session', formData).catch(onError)
             response?.data?.jwt && localStorage.setItem('jwt', response.data.jwt)
-            // history.push('/')
+            // router.push('/sign_in?return_to=' + encodeURIComponent(route.fullPath))
+            const returnTo = route.query.return_to?.toString()
+            router.push(returnTo || '/')
         }
         const onError = (error: any) => {
             if (error.response.status === 422) {
