@@ -41,7 +41,8 @@ export const FormItem = defineComponent({
         countFrom: {
             type: Number,
             default: 60
-        }
+        },
+        disabled: Boolean
     },
     emit: ['update:modelValue'],
     setup: (props, context) => {
@@ -93,7 +94,7 @@ export const FormItem = defineComponent({
                         placeholder={props.placeholder}
                         onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
                         class={[s.formItem, s.input, s.validationCodeInput, props.error ? s.error : '']} />
-                        <Button disabled={isCounting.value} class={[s.formItem, s.validationCodeButton]} onClick={props.onClick}>{isCounting.value ? `${count.value}秒后可重新发送` : props.buttonLabel}</Button>
+                        <Button disabled={isCounting.value || props.disabled} class={[s.formItem, s.validationCodeButton]} onClick={props.onClick}>{isCounting.value ? `${count.value}秒后可重新发送` : props.buttonLabel}</Button>
                     </>
                 case 'select':
                     return <select class={[s.formItem, s.select]} value={props.modelValue}
