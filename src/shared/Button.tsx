@@ -1,4 +1,4 @@
-import { PropType, defineComponent } from 'vue';
+import { PropType, defineComponent, ref, computed } from 'vue';
 import s from './Button.module.scss';
 
 export const Button = defineComponent({
@@ -17,13 +17,30 @@ export const Button = defineComponent({
         disabled: {
             type: Boolean,
             default: false
+        },
+        autoSelfDisabled: {
+            type: Boolean,
+            default: false
         }
     },
     setup: (props, context) => {
-    return () => (
-        <button type={props.type} disabled={props.disabled} class={[s.button, s[props.level]]} onClick={props.onClick}>
-            {context.slots.default?.()}
-        </button>
-    )
+        const selfDisabled = ref(false)
+        const _disabled = computed(() => {
+            if (!props.autoSelfDisabled) return props.disabled
+            if (selfDisabled.value) return true
+            return props.disabled
+        })
+        const onClick = () => {
+            props.onClick?.()
+            selfDisabled.value = true
+            setTimeout(() => {
+                selfDisabled.value = false
+            }, 500);
+        }
+        return () => (
+            <button type={props.type} disabled={_disabled.value} class={[s.button, s[props.level]]} onClick={onClick}>
+                {context.slots.default?.()}
+            </button>
+        )
     }
 })
