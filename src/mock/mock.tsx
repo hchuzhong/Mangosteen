@@ -15,19 +15,17 @@ export const mockTagIndex: Mock = (config) => {
         id += 1
         return id
     }
-    const createTag = (n = 1, attrs?: any) =>
+    const createTag = (n = 1, attrs?: any) => 
         Array.from({ length: n }).map(() => ({
+            ...attrs,
             id: createId(),
-            name: faker.lorem.word(),
+            name: faker.word.noun(),
             sign: faker.internet.emoji(),
-            kind: config.params.kind,
-            ...attrs
+            kind: config.params.kind
         }))
-
     if (config.params.kind === 'expenses') {
         return [200, { resources: createTag(7) }]
     } else {
         return [200, { resources: createTag(20) }]
     }
-
 }
