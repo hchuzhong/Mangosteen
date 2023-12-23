@@ -14,14 +14,14 @@ export const ItemCreate = defineComponent({
     },
     setup: (props, context) => {
         const refKind = ref('支出')
-        const refExpensesTags = ref<Tag>([])
+        const refExpensesTags = ref<Tag[]>([])
         onMounted(async () => {
-            const response = await http.get<{resouces: Tag[]}>('/tags', { kind: 'expenses', _mock: 'tagIndex' })
+            const response = await http.get<{resources: Tag[]}>('/tags', { kind: 'expenses', _mock: 'tagIndex' })
             refExpensesTags.value = response.data.resources
         })
-        const refIncomeTags = ref<Tag>([])
+        const refIncomeTags = ref<Tag[]>([])
         onMounted(async () => {
-            const response = await http.get<{resouces: Tag[]}>('/tags', { kind: 'income', _mock: 'tagIndex' })
+            const response = await http.get<{resources: Tag[]}>('/tags', { kind: 'income', _mock: 'tagIndex' })
             refIncomeTags.value = response.data.resources
         })
         return () => (
