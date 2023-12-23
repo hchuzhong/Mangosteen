@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from "axios";
+type JSONValue = string | number | null | boolean | JSONValue[] | { [key: string]: JSONValue };
 
 export class Http {
     instance: AxiosInstance
@@ -25,6 +26,14 @@ export class Http {
 }
 
 export const http = new Http('/api/v1')
+
+http.instance.interceptors.request.use(config => {
+    const token = localStorage.getItem('jwt')
+    if (token) {
+        config.headers!.Authorization = `Bear ${token}`
+    }
+    return config
+})
 
 http.instance.interceptors.response.use(response => {
     return response
