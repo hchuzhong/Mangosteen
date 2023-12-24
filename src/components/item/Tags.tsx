@@ -10,8 +10,10 @@ export const Tags = defineComponent({
         kind: {
             type: String as PropType<'expenses' | 'income'>,
             required: true
-        }
+        },
+        selected: Number
     },
+    emit: ['update:selected'],
     setup: (props, context) => {
         const {hasMore, tags, fetchTags} = useTags((page) => {
             return http.get<Resources<Tag>>('/tags', { kind: props.kind, page: page + 1, _mock: 'tagIndex' })
@@ -27,7 +29,7 @@ export const Tags = defineComponent({
                     </div>
                 </div>
                 {tags.value.map(tag =>
-                    <div class={[s.tag, s.selected]}>
+                    <div class={[s.tag, props.selected === tag.id ? s.selected : '']} onClick={() => context.emit('update:selected', tag.id)}>
                         <div class={s.sign}>
                             {tag.sign}
                         </div>
