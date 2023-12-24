@@ -3,6 +3,20 @@ import { AxiosRequestConfig } from 'axios';
 
 type Mock = (config: AxiosRequestConfig) => [number, any]
 
+export const mockItemCreate: Mock = (config) => {
+    return [200, {"resource": {
+        "id": 695,
+        "user_id": 277,
+        "amount": 100,
+        "note": null,
+        "tags_id": [319],
+        "happened_at": "2023-12-21T05:27:26.108Z",
+        "created_at": "2023-12-21T05:27:26.137Z",
+        "updated_at": "2023-12-21T05:27:26.137Z",
+        "kind": "expenses"
+    }}]
+}
+
 export const mockSession: Mock = (config) => {
     return [200, {
         jwt: faker.word.adjective(128)
