@@ -1,16 +1,16 @@
 import { defineComponent } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
-import { Icon } from '../../shared/Icon';
 import { TagForm } from './TabForm';
 import { Button } from '../../shared/Button';
 import s from './Tag.module.scss';
+import { BackIcon } from '../../shared/BackIcon';
 
 export const TagEdit = defineComponent({
     setup: (props, context) => {
         return () => (
             <MainLayout>{{
                 title: () => '编辑标签',
-                icon: () => <Icon name='left' onClick={() => {}} />,
+                icon: () => <BackIcon />,
                 default: () => <>
                     <TagForm />
                     <div class={s.actions}>
