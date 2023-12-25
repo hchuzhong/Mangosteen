@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, onMounted, reactive, ref } from 'vue';
 import s from './Tag.module.scss';
 import { Button } from '../../shared/Button';
 import { Rules, hasError, validate } from '../../shared/validate';
@@ -8,11 +8,15 @@ import { http } from '../../shared/Http';
 import { onFormError } from '../../shared/onFormError';
 
 export const TagForm = defineComponent({
+    props: {
+        id: Number
+    },
     setup: (props, context) => {
         const router = useRouter()
         const kind = router.currentRoute.value.query.kind?.toString()
         if (!kind) return () => <div>参数错误</div>
-        const formData = reactive({
+        const formData = reactive<Partial<Tag>>({
+            id: undefined,
             name: '',
             sign: '',
             kind: kind
@@ -27,10 +31,16 @@ export const TagForm = defineComponent({
             ]
             errors.value = validate(formData, rules)
             if (hasError(errors.value)) return
-            const response = await http.post('/tags', formData, {params: {_mock: 'createTag'}})
-                .catch(error => onFormError(error, (data) => errors.value = data.errors))
+            const promise = await formData.id ? http.patch(`/tags/${formData.id}`, formData, {params: {_mock: 'editTag'}}) : http.post('/tags', formData, {params: {_mock: 'createTag'}})
+            await promise.catch(error => onFormError(error, (data) => errors.value = data.errors))
             router.back()
         }
+        onMounted(async () => {
+            if (!props.id) return
+            const response = await http.get<Resource<Tag>>(`/tags/${props.id}`, {_mock: 'getTag'})
+            console.log(response)
+            Object.assign(formData, response.data.resource)
+        })
         return () => (
             <Form onSubmit={onSubmit}>
                 <FormItem label='标签名(最多4个字符)' type='text' v-model={formData.name} error={errors.value['name']?.join(' ')} />

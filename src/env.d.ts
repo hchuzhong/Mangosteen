@@ -27,7 +27,7 @@ type Item = {
 }
 
 type Resource<T = any> = {
-  resources: T
+  resource: T
 }
 
 type Resources<T = any> = {
