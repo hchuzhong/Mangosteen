@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
-import { TagForm } from './TabForm';
+import { TagForm } from './TagForm';
 import { Button } from '../../shared/Button';
 import s from './Tag.module.scss';
 import { BackIcon } from '../../shared/BackIcon';

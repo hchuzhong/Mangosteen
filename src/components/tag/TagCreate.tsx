@@ -1,7 +1,6 @@
 import { defineComponent } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
-import { Icon } from '../../shared/Icon';
-import { TagForm } from './TabForm';
+import { TagForm } from './TagForm';
 import { BackIcon } from '../../shared/BackIcon';
 
 export const TagCreate = defineComponent({
