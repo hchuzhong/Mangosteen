@@ -3,8 +3,18 @@ import { AxiosRequestConfig } from 'axios';
 
 type Mock = (config: AxiosRequestConfig) => [number, any]
 
+export const mockTagShow: Mock = (config) => {
+    const createTag = () => ({
+        id: createId(),
+        name: faker.word.noun(),
+        sign: faker.internet.emoji(),
+        kind: 'income'
+    })
+    return [200, {resource: createTag()}]
+}
+
 export const mockItemCreate: Mock = (config) => {
-    return [200, {"resource": {
+    return [200, {resource: {
         "id": 695,
         "user_id": 277,
         "amount": 100,

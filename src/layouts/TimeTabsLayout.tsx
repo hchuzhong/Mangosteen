@@ -28,7 +28,7 @@ export const TimeTabsLayout = defineComponent({
         }
     },
     setup: (props, context) => {
-        const refSelected = ref('本月')
+        const refSelected = ref('curMonth')
         const customTime = reactive({ start: new Time().format(), end: new Time().format() })
         const time = new Time()
         const timeList = [
@@ -52,16 +52,16 @@ export const TimeTabsLayout = defineComponent({
                 icon: () => <OverlayIcon />,
                 default: () => <>
                     <Tabs classPrefix='customTabs' v-model:selected={refSelected.value} onUpdate:selected={onUpdateSelectedTab}>
-                        <Tab name='本月'>
+                        <Tab name='本月' value="curMonth">
                             <props.component startDate={timeList[0].start.format()} endDate={timeList[0].end.format()} />
                         </Tab>
-                        <Tab name='上月'>
+                        <Tab name='上月' value="lastMonth">
                             <props.component startDate={timeList[1].start.format()} endDate={timeList[1].end.format()} />
                         </Tab>
-                        <Tab name='今年'>
+                        <Tab name='今年' value="curYear">
                             <props.component startDate={timeList[0].start.format()} endDate={timeList[0].end.format()} />
                         </Tab>
-                        <Tab name='自定义时间'>
+                        <Tab name='自定义时间' value="customTime">
                             <props.component startDate={customTime.start} endDate={customTime.end} />
                         </Tab>
                     </Tabs>
