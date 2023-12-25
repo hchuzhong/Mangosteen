@@ -9,14 +9,8 @@ import { Overlay } from 'vant';
 
 const propsComponent = defineComponent({
     props: {
-        startDate: {
-            type: String as PropType<string>,
-            required: true
-        },
-        endDate: {
-            type: String as PropType<string>,
-            required: true
-        }
+        startDate: String,
+        endDate: String
     }
 })
 
@@ -29,15 +23,19 @@ export const TimeTabsLayout = defineComponent({
     },
     setup: (props, context) => {
         const refSelected = ref('curMonth')
-        const customTime = reactive({ start: new Time().format(), end: new Time().format() })
+        const customTime = reactive<{start?: string, end?: string}>({})
         const time = new Time()
+        const tempTime = reactive<{start?: string, end?: string}>({
+            start: new Time().format(),
+            end: new Time().format(),
+        })
         const timeList = [
             { start: time.firstDayOfMonth(), end: time.lastDayOfMonth() },
             { start: time.add(-1, 'month').firstDayOfMonth(), end: time.add(-1, 'month').lastDayOfMonth() },
             { start: time.firstDayOfYear(), end: time.lastDayOfYear() },
         ]
         const onUpdateSelectedTab = () => {
-            if (refSelected.value === '自定义时间') {
+            if (refSelected.value === 'customTime') {
                 refOverlayVisible.value = true
             }
         }
@@ -45,6 +43,7 @@ export const TimeTabsLayout = defineComponent({
         const onSubmitCustomTime = (e: Event) => {
             e.preventDefault()
             refOverlayVisible.value = false
+            Object.assign(customTime, tempTime)
         }
         return () => (
             <MainLayout>{{
@@ -70,8 +69,8 @@ export const TimeTabsLayout = defineComponent({
                             <header>请选择时间</header>
                             <main>
                                 <Form onSubmit={onSubmitCustomTime}>
-                                    <FormItem type='date' label='开始时间' v-model={customTime.start} />
-                                    <FormItem type='date' label='结束时间' v-model={customTime.end} />
+                                    <FormItem type='date' label='开始时间' v-model={tempTime.start} />
+                                    <FormItem type='date' label='结束时间' v-model={tempTime.end} />
                                     <FormItem class={s.actions}>
                                         <div class={s.actions}>
                                             <button type='button' onClick={() => refOverlayVisible.value = false}>取消</button>
