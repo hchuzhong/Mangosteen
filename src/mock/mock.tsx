@@ -4,23 +4,25 @@ import { AxiosRequestConfig } from 'axios';
 type Mock = (config: AxiosRequestConfig) => [number, any]
 
 export const mockItemSummary: Mock = (config) => {
-    return [200, {
-        groups: [
-            {
-                happened_at: "2023-12-10",
-                amount: 700
-            },
-            {
-                happened_at: "2023-12-15",
-                amount: 300
-            },
-            {
-                happened_at: "2023-12-20",
-                amount: 1100
-            }
-        ],
-        total: 2100
-    }]
+    if (config.params.group_by === 'happened_at') {
+        return [200, {
+            groups: [
+                {happened_at: "2023-12-10", amount: 700},
+                {happened_at: "2023-12-15", amount: 300},
+                {happened_at: "2023-12-20", amount: 1100}
+            ],
+            total: 2100
+        }]
+    } else {
+        return [200, {
+            groups: [
+                {tag_id: 324, amount: 500, tag: {id: 324, name: 'test1'}},
+                {tag_id: 322, amount: 400, tag: {id: 322, name: 'test2'}},
+                {tag_id: 323, amount: 300, tag: {id: 323, name: 'test3'}}
+            ],
+            total: 2100
+        }]
+    } 
 }
 
 export const mockItemIndexBalance: Mock = (config) => {
