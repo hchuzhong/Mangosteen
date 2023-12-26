@@ -24,14 +24,12 @@ export const Charts = defineComponent({
             if (!props.startDate || !props.endDate) return []
             const dataObj: Record<string, number> = {}
             data.value.forEach(item => (dataObj[new Time(item.happened_at).getTimeStamp()] = item.amount))
-            const array = []
             const diff = new Date(props.endDate).getTime() - new Date(props.startDate).getTime()
             const days = diff / DAY + 1
-            for (let i = 0; i < days; i++) {
+            return Array.from({length: days}).map((_, i) => {
                 const time = new Time(props.startDate).add(i, 'day').getTimeStamp()
-                array.push([new Date(time).toISOString(), dataObj[time] || 0 ])
-            }
-            return array as [string, number][]
+                return [new Date(time).toISOString(), dataObj[time] || 0 ]
+            }) as [string, number][]
         })
         onMounted(async () => {
             if (!props.startDate || !props.endDate) return
