@@ -16,9 +16,9 @@ export const mockItemSummary: Mock = (config) => {
     } else {
         return [200, {
             groups: [
-                {tag_id: 324, amount: 500, tag: {id: 324, name: 'test1'}},
-                {tag_id: 322, amount: 400, tag: {id: 322, name: 'test2'}},
-                {tag_id: 323, amount: 300, tag: {id: 323, name: 'test3'}}
+                {tag_id: 324, amount: 500, tag: {id: 324, name: 'test1', sign: faker.internet.emoji()}},
+                {tag_id: 322, amount: 400, tag: {id: 322, name: 'test2', sign: faker.internet.emoji()}},
+                {tag_id: 323, amount: 300, tag: {id: 323, name: 'test3', sign: faker.internet.emoji()}}
             ],
             total: 2100
         }]
