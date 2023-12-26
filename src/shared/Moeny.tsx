@@ -8,19 +8,21 @@ export const Money = defineComponent({
         }
     },
     setup: (props, context) => {
-        const formatNumber = (n: number) => {
-            const nString = (n / 100).toString()
-            const dotIndex = nString.indexOf('.')
-            if (dotIndex < 0) {
-                return nString + '.00'
-            } else if (nString.length - dotIndex === 2) {
-                return nString + '0'
-            } else {
-                return nString
-            }
-        }
+        
         return () => (
-            <span>{formatNumber(props.value)}</span>
+            <span>{formatMoney(props.value)}</span>
         )
     }
 })
+
+export const formatMoney = (n: number) => {
+    const nString = (n / 100).toString()
+    const dotIndex = nString.indexOf('.')
+    if (dotIndex < 0) {
+        return nString + '.00'
+    } else if (nString.length - dotIndex === 2) {
+        return nString + '0'
+    } else {
+        return nString
+    }
+}
