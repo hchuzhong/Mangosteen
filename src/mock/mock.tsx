@@ -3,6 +3,71 @@ import { AxiosRequestConfig } from 'axios';
 
 type Mock = (config: AxiosRequestConfig) => [number, any]
 
+export const mockItemSummary: Mock = (config) => {
+    return [200, {
+        groups: [
+            {
+                happened_at: "2023-12-10",
+                amount: 700
+            },
+            {
+                happened_at: "2023-12-15",
+                amount: 300
+            },
+            {
+                happened_at: "2023-12-20",
+                amount: 1100
+            }
+        ],
+        total: 2100
+    }]
+}
+
+export const mockItemIndexBalance: Mock = (config) => {
+    return [200, {
+        expenses: 19900,
+        income: 9900,
+        balance: 10000
+    }]
+}
+
+export const mockItemIndex: Mock = (config) => {
+    const { kind, page } = config.params
+    const per_page = 25
+    const count = 26
+    const createPaper = (page = 1) => ({
+        page,
+        per_page,
+        count,
+    })
+    const createTag = () => ({
+        id: createId(),
+        name: faker.word.noun(),
+        sign: faker.internet.emoji(),
+        kind: 'income'
+    })
+    const createItem = (n = 1, attrs?: any) =>
+        Array.from({ length: n }).map(() => ({
+            id: createId(),
+            user_id: createId(),
+            amount: Math.floor(Math.random() * 10000),
+            tags: [createTag()],
+            happened_at: faker.date.past().toISOString(),
+            kind: config.params.kind,
+        }))
+    const createBody = (n = 1, attrs?: any) => ({
+        resources: createItem(n),
+        pager: createPaper(page),
+    })
+    if (!page || page === 1) {
+        return [200, createBody(25)]
+    } else if (page === 2) {
+        return [200, createBody(1)]
+    }else{
+        return [200, {}]
+    }
+}
+
 export const mockTagShow: Mock = (config) => {
     const createTag = () => ({
         id: createId(),

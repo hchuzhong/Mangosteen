@@ -14,7 +14,6 @@ export const TagEdit = defineComponent({
         const numberId = parseInt(router.currentRoute.value.params.id!.toString())
         if (Number.isNaN(numberId)) return () => <div>id 不存在</div>
         const onDelete = async (option?: { withItem?: boolean }) => {
-            console.log(option);
             await Dialog.confirm({
                 title: '确认',
                 message: option?.withItem ? '删除标签后，该标签下的所有记账也将被删除，是否继续？' : '是否要删除该标签？'
