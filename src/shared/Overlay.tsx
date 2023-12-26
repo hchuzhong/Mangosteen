@@ -84,7 +84,7 @@ export const OverlayIcon = defineComponent({
         return () => (
             <>
                 <Icon name='menu' class={s.icon} onClick={onClickMenu} />
-                {overlayVisible.value && <Overlay z-index={64} onClose={() => overlayVisible.value = false} />}
+                {overlayVisible.value && <Overlay onClose={() => overlayVisible.value = false} />}
             </>
         )
     }
