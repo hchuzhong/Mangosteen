@@ -3,6 +3,26 @@ import { AxiosRequestConfig } from 'axios';
 
 type Mock = (config: AxiosRequestConfig) => [number, any]
 
+export const mockItemSummary: Mock = (config) => {
+    return [200, {
+        groups: [
+            {
+                happened_at: "2023-12-10",
+                amount: 700
+            },
+            {
+                happened_at: "2023-12-15",
+                amount: 300
+            },
+            {
+                happened_at: "2023-12-20",
+                amount: 1100
+            }
+        ],
+        total: 2100
+    }]
+}
+
 export const mockItemIndexBalance: Mock = (config) => {
     return [200, {
         expenses: 19900,
