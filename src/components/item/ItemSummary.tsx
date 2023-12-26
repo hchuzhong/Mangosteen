@@ -3,7 +3,7 @@ import { FloatButton } from '../../shared/FloatButton';
 import s from './ItemSummary.module.scss';
 import { http } from '../../shared/Http';
 import { Button } from '../../shared/Button';
-import { Money } from '../../shared/Moeny';
+import { Money } from '../../shared/Money';
 import { DateTime } from '../../shared/DateTime';
 
 export const ItemSummary = defineComponent({

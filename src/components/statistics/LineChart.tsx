@@ -2,7 +2,7 @@ import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
 import s from './LineChart.module.scss';
 import * as echarts from 'echarts';
 import { Time } from '../../shared/time';
-import { formatMoney } from '../../shared/Moeny';
+import { formatMoney } from '../../shared/Money';
 
 const echartsOption = {
     tooltip: {
