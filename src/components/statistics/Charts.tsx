@@ -78,7 +78,6 @@ export const Charts = defineComponent({
 
         return () => (
             <div class={s.wrapper}>
-                {JSON.stringify(data1.value)}
                 <FormItem label='类型' type='select' options={[
                     { value: 'expenses', text: '支出' },
                     { value: 'income', text: '收入' },
