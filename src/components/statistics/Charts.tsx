@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, onMounted } from 'vue';
+import { computed, defineComponent, ref, onMounted, watch } from 'vue';
 import s from './Charts.module.scss';
 import { FormItem } from '../../shared/Form';
 import { LineChart } from './LineChart';
@@ -21,11 +21,11 @@ export const Charts = defineComponent({
     },
     setup: (props, context) => {
         const kind = ref('expenses')
-        const data = ref<Data>([])
-        const betterData = computed<[string, number][]>(() => {
+        const data1 = ref<Data>([])
+        const betterData1 = computed<[string, number][]>(() => {
             if (!props.startDate || !props.endDate) return []
             const dataObj: Record<string, number> = {}
-            data.value.forEach(item => (dataObj[new Time(item.happened_at).getTimeStamp()] = item.amount))
+            data1.value.forEach(item => (dataObj[new Time(item.happened_at).getTimeStamp()] = item.amount))
             const diff = new Date(props.endDate).getTime() - new Date(props.startDate).getTime()
             const days = diff / DAY + 1
             return Array.from({length: days}).map((_, i) => {
@@ -33,7 +33,7 @@ export const Charts = defineComponent({
                 return [new Date(time).toISOString(), dataObj[time] || 0 ]
             }) as [string, number][]
         })
-        onMounted(async () => {
+        const fetchItems1 = async () => {
             if (!props.startDate || !props.endDate) return
             const response = await http.get<{groups: Data, summary: number}>('/items/summary', {
                 happen_after: props.startDate,
@@ -42,14 +42,15 @@ export const Charts = defineComponent({
                 group_by: 'happened_at',
                 _mock: 'itemSummary'
             })
-            data.value = response.data.groups
-        })
+            data1.value = response.data.groups
+        }
+        onMounted(fetchItems1)
 
         const data2 = ref<Data2>([])
         const betterData2 = computed<{name: string, value: number}[]>(() => {
             return data2.value.map(item => ({name: item.tag.name, value: item.amount}))
         })
-        onMounted(async () => {
+        const fetchItems2 = async () => {
             if (!props.startDate || !props.endDate) return
             const response = await http.get<{groups: Data2, summary: number}>('/items/summary', {
                 happen_after: props.startDate,
@@ -59,7 +60,8 @@ export const Charts = defineComponent({
                 _mock: 'itemSummary'
             })
             data2.value = response.data.groups
-        })
+        }
+        onMounted(fetchItems2)
 
         const betterData3 = computed<{tag: Tag, amount: number, percent: number}[]>(() => {
             const total = data2.value.reduce((sum, item) => sum + item.amount, 0)
@@ -69,13 +71,19 @@ export const Charts = defineComponent({
             }))
         })
 
+        watch(() => kind.value, () => {
+            fetchItems1()
+            fetchItems2()
+        })
+
         return () => (
             <div class={s.wrapper}>
+                {JSON.stringify(data1.value)}
                 <FormItem label='类型' type='select' options={[
                     { value: 'expenses', text: '支出' },
                     { value: 'income', text: '收入' },
                 ]} v-model={kind.value} />
-                <LineChart data={betterData.value} />
+                <LineChart data={betterData1.value} />
                 <PieChart data={betterData2.value} />
                 <Bars data={betterData3.value} />
             </div>
