@@ -8,7 +8,6 @@ import { SecondActions } from "../components/welcome/SecondActions";
 import { Third } from "../components/welcome/Third";
 import { ThirdActions } from "../components/welcome/ThirdActions";
 import { Welcome } from "../views/Welcome";
-import { StartPage } from "../views/StartPage";
 import { ItemPage } from "../views/ItemPage";
 import { ItemCreate } from "../components/item/ItemCreate";
 import { ItemList } from "../components/item/ItemList";
@@ -24,7 +23,7 @@ export const routes: RouteRecordRaw[] = [
         path: '/welcome',
         component: Welcome,
         beforeEnter: (to, from, next) => {
-            localStorage.getItem('skipFeatures') === 'yes' ? next('/start') : next()
+            localStorage.getItem('skipFeatures') === 'yes' ? next('/items') : next()
         },
         children: [
             { path: '', redirect: '/welcome/1' },
@@ -34,7 +33,6 @@ export const routes: RouteRecordRaw[] = [
             { path: '4', name: "Welcome4", components: { main: Forth, footer: ForthActions }, },
         ]
     },
-    { path: '/start', component: StartPage },
     {
         path: '/items', component: ItemPage,
         children: [
