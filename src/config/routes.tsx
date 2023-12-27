@@ -8,7 +8,6 @@ import { SecondActions } from "../components/welcome/SecondActions";
 import { Third } from "../components/welcome/Third";
 import { ThirdActions } from "../components/welcome/ThirdActions";
 import { Welcome } from "../views/Welcome";
-import { StartPage } from "../views/StartPage";
 import { ItemPage } from "../views/ItemPage";
 import { ItemCreate } from "../components/item/ItemCreate";
 import { ItemList } from "../components/item/ItemList";
@@ -17,6 +16,7 @@ import { TagEdit } from "../components/tag/TagEdit";
 import { TagPage } from "../views/TagPage";
 import { SignInPage } from "../views/SignInPage";
 import { StatisticsPage } from "../views/StatisticsPage";
+import { ComingSoon } from "../shared/Comingsoon";
 
 export const routes: RouteRecordRaw[] = [
     { path: '/', redirect: '/welcome' },
@@ -24,7 +24,7 @@ export const routes: RouteRecordRaw[] = [
         path: '/welcome',
         component: Welcome,
         beforeEnter: (to, from, next) => {
-            localStorage.getItem('skipFeatures') === 'yes' ? next('/start') : next()
+            localStorage.getItem('skipFeatures') === 'yes' ? next('/items') : next()
         },
         children: [
             { path: '', redirect: '/welcome/1' },
@@ -34,7 +34,6 @@ export const routes: RouteRecordRaw[] = [
             { path: '4', name: "Welcome4", components: { main: Forth, footer: ForthActions }, },
         ]
     },
-    { path: '/start', component: StartPage },
     {
         path: '/items', component: ItemPage,
         children: [
@@ -49,10 +48,8 @@ export const routes: RouteRecordRaw[] = [
             { path: 'edit/:id', component: TagEdit },
         ]
     },
-    {
-        path: '/sign_in', component: SignInPage
-    },
-    {
-        path: '/statistics', component: StatisticsPage
-    }
+    { path: '/sign_in', component: SignInPage },
+    { path: '/statistics', component: StatisticsPage },
+    { path: '/export', component: ComingSoon },
+    { path: '/notify', component: ComingSoon },
 ]

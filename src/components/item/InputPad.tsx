@@ -9,7 +9,7 @@ export const InputPad = defineComponent({
         happenAt: String,
         amount: Number,
         onSubmit: {
-            type: Function as PropType<(happenAt: string, amount: number) => void>
+            type: Function as PropType<() => void>
         }
     },
     emit: ['update:happenAt', 'update:amount'],
@@ -48,7 +48,7 @@ export const InputPad = defineComponent({
             { text: '清空', onClick: () => { refAmount.value = '0' }},
             { text: '提交', onClick: () => { 
                 context.emit('update:amount', parseFloat(refAmount.value) * 100)
-                props.onSubmit?.(props.happenAt, props.amount)
+                props.onSubmit?.()
             }
             },
 
@@ -69,7 +69,7 @@ export const InputPad = defineComponent({
                         <span onClick={showDatePicker}>{new Time(props.happenAt).format()}</span>
                         <Popup position='bottom' v-model:show={refDatePickerVisible.value}>
                             <DatetimePicker
-                                value={props.happenAt}
+                                modelValue={props.happenAt ? new Date(props.happenAt) : new Date()}
                                 type="date"
                                 title="选择年月日"
                                 onConfirm={setDate}
