@@ -1,5 +1,4 @@
 import { defineComponent, watch, ref, onMounted, reactive } from 'vue';
-import { FloatButton } from '../../shared/FloatButton';
 import s from './ItemSummary.module.scss';
 import { http } from '../../shared/Http';
 import { Button } from '../../shared/Button';
@@ -90,7 +89,6 @@ export const ItemSummary = defineComponent({
                 </>) : (
                     <div>记录为空</div>
                 )}
-                <FloatButton iconName="add" />
             </div>
         )
     }
