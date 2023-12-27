@@ -17,10 +17,8 @@ export const ItemSummary = defineComponent({
         const items = ref<Item[]>([])
         const hasMore = ref(false)
         const page = ref(0)
-        const isReuqesting = ref(false)
         const fetchItems = async () => {
             if (!props.startDate || !props.endDate) return
-            isReuqesting.value = true
             const response = await http.get<Resources<Item>>(`/items`, {
                 happen_after: props.startDate,
                 happen_before: props.endDate,
@@ -30,7 +28,6 @@ export const ItemSummary = defineComponent({
             items.value?.push(...resources)
             hasMore.value = (pager.page - 1) * pager.per_page + resources.length < pager.count
             page.value += 1
-            isReuqesting.value = false
         }
         onMounted(fetchItems)
         const itemsBalance = reactive({expenses: 0, income: 0, balance: 0})
@@ -53,7 +50,7 @@ export const ItemSummary = defineComponent({
         })
         return () => (
             <div class={s.wrapper}>
-                {isReuqesting.value ? <Center class={s.pig_wrapper}>Loading...</Center> : items.value && items.value.length ? (<>
+                {items.value && items.value.length ? (<>
                     <ul class={s.total}>
                         <li>
                             <span>收入</span>
