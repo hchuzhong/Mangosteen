@@ -36,7 +36,7 @@ export const SignInPage = defineComponent({
                 { key: 'code', type: 'pattern', regex: /^\d{6}$/, message: '必须是六位数字' },
             ])
             if (hasError(errors.value)) return
-            const response = await http.post<{'jwt': string}>('/session', formData).catch(onError)
+            const response = await http.post<{'jwt': string}>('/session', formData, {_autoLoading: true}).catch(onError)
             response?.data?.jwt && localStorage.setItem('jwt', response.data.jwt)
             const returnTo = route.query.return_to?.toString()
             refreshMe()
@@ -50,7 +50,7 @@ export const SignInPage = defineComponent({
         }
         const onClickValidationCode = async (e: Event) => {
             enable()
-            const response = await http.post('/validation_codes', {email: formData.email}).catch(onError).finally(disable)
+            await http.post('/validation_codes', {email: formData.email}, {_autoLoading: true}).catch(onError).finally(disable)
             refValidationCode.value.startCount()
         }
         return () => (

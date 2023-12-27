@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { mockTagShow, mockItemCreate, mockSession, mockTagIndex, mockItemIndex, mockItemIndexBalance, mockItemSummary } from "../mock/mock";
+import { Toast } from "vant";
 
 type GetConfig = Omit<AxiosRequestConfig, 'params' | 'url' | 'method'>
 type PostConfig = Omit<AxiosRequestConfig, 'url' | 'data' | 'method'>
@@ -30,7 +31,7 @@ export class Http {
 const mock = (response: AxiosResponse) => {
     if (location.hostname !== 'localhost'
         && location.hostname !== '127.0.0.1') { return false }
-    switch (response.config?.params?._mock) {
+    switch (response.config?._mock) {
         case 'tagIndex':
             [response.status, response.data] = mockTagIndex(response.config)
             return true
@@ -66,9 +67,23 @@ http.instance.interceptors.request.use(config => {
     if (jwt) {
         config.headers!.Authorization = `Bearer ${jwt}`
     }
+    if (config?._autoLoading) {
+        Toast.loading({
+            message: 'Loading...',
+            forbidClick: true,
+            duration: 0
+        });
+    }
     return config
 })
 
+http.instance.interceptors.response.use((response) => {
+    response.config?._autoLoading && Toast.clear()
+    return response
+}, (error) => {
+    error?.response.config?._autoLoading && Toast.clear()
+    throw error
+})
 http.instance.interceptors.response.use((response) => {
     mock(response)
     return response

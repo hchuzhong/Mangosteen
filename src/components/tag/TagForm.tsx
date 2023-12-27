@@ -31,13 +31,13 @@ export const TagForm = defineComponent({
             ]
             errors.value = validate(formData, rules)
             if (hasError(errors.value)) return
-            const promise = await formData.id ? http.patch(`/tags/${formData.id}`, formData, {params: {_mock: 'editTag'}}) : http.post('/tags', formData, {params: {_mock: 'createTag'}})
+            const promise = await formData.id ? http.patch(`/tags/${formData.id}`, formData, {_mock: 'editTag', _autoLoading: true}) : http.post('/tags', formData, {_mock: 'getTag', _autoLoading: true})
             await promise.catch(error => onFormError(error, (data) => errors.value = data.errors))
             router.back()
         }
         onMounted(async () => {
             if (!props.id) return
-            const response = await http.get<Resource<Tag>>(`/tags/${props.id}`, {_mock: 'getTag'})
+            const response = await http.get<Resource<Tag>>(`/tags/${props.id}`, {}, {_mock: 'getTag', _autoLoading: true})
             Object.assign(formData, response.data.resource)
         })
         return () => (
