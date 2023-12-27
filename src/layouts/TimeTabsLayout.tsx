@@ -6,6 +6,8 @@ import { OverlayIcon } from '../shared/Overlay';
 import { Time } from '../shared/time';
 import { Tab, Tabs } from '../shared/Tabs';
 import { Overlay } from 'vant';
+import { RouterLink } from 'vue-router';
+import { FloatButton } from '../shared/FloatButton';
 
 const propsComponent = defineComponent({
     props: {
@@ -85,6 +87,9 @@ export const TimeTabsLayout = defineComponent({
                             </Tab>
                         </Tabs>
                     }
+                    <RouterLink to='/items/create'>
+                        <FloatButton iconName="add" />
+                    </RouterLink>
                     <Overlay z-index={64} show={refOverlayVisible.value} class={s.overlay}>
                         <div class={s.overlay_inner}>
                             <header>请选择时间</header>

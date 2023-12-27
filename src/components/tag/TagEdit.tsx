@@ -18,7 +18,7 @@ export const TagEdit = defineComponent({
                 title: '确认',
                 message: option?.withItem ? '删除标签后，该标签下的所有记账也将被删除，是否继续？' : '是否要删除该标签？'
             })
-            await http.delete(`/api/tags/${numberId}`, { withItem: option?.withItem ? 'true' : 'false' })
+            await http.delete(`/api/tags/${numberId}`, { withItem: option?.withItem ? 'true' : 'false' }, {_autoLoading: true})
                 .catch(() => Dialog.alert({title: '提示', message: '删除失败'}))
             router.back()
         }
