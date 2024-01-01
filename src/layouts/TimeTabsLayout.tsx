@@ -1,4 +1,4 @@
-import { DefineComponent, PropType, defineComponent, reactive, ref } from 'vue';
+import { PropType, defineComponent, reactive, ref } from 'vue';
 import s from './TimeTabsLayout.module.scss';
 import { MainLayout } from './MainLayout';
 import { Form, FormItem } from '../shared/Form';
