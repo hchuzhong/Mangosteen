@@ -17,7 +17,7 @@ export const Tags = defineComponent({
     emit: ['update:selected'],
     setup: (props, context) => {
         const router = useRouter()
-        const {hasMore, tags, fetchTags} = useTags((page) => {
+        const {hasMore, noMoreThanOnePage, tags, fetchTags} = useTags((page) => {
             return http.get<Resources<Tag>>('/tags', { kind: props.kind, page: page + 1 }, {_mock: 'tagIndex', _autoLoading: true})
         })
         const timer = ref<number>()
@@ -62,7 +62,7 @@ export const Tags = defineComponent({
                 )}
             </div>
             <div class={s.more}>
-                {hasMore.value ? <Button class={s.loadMore} onClick={fetchTags}>加载更多</Button> : <span class={s.nomore}>没有更多内容了</span> }
+                {noMoreThanOnePage.value ? null : hasMore.value ? <Button class={s.loadMore} onClick={fetchTags}>加载更多</Button> : <span class={s.nomore}>没有更多内容了</span> }
             </div>
         </>
     }
