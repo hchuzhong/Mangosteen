@@ -9,6 +9,7 @@ import { useRouter } from 'vue-router';
 import { Dialog } from 'vant';
 import { AxiosError } from 'axios';
 import { BackIcon } from '../../shared/BackIcon';
+import { hasError, validate } from '../../shared/validate';
 
 export const ItemCreate = defineComponent({
     props: {
@@ -17,11 +18,13 @@ export const ItemCreate = defineComponent({
         }
     },
     setup: (props, context) => {
-        const formData = reactive({
+        const formData = reactive<Partial<Item>>({
             kind: 'expenses',
-            tag_id: [],
+            tag_ids: [],
             amount: 0,
-            happen_at: new Date().toISOString()
+            happened_at: new Date().toISOString()
+        })
+        const errors = reactive<FormErrors<typeof formData>>({kind: [], tag_ids: [], amount: [], happened_at: []
         })
         const router = useRouter()
         const onError = (error: AxiosError<ResourceError>) => {
@@ -34,7 +37,23 @@ export const ItemCreate = defineComponent({
             throw error
         }
         const onSubmit = async () => {
-            await http.post<Resource<Item>>('/items', formData, {_mock: 'itemCreate', _autoLoading: true}).catch(onError)
+            Object.assign(errors, {kind: [], tag_ids: [], amount: [], happened_at: []})
+            const validateErrors = validate(formData, [
+                {key: 'kind', type: 'required', message: '类型必填'},
+                {key: 'tag_ids', type: 'required', message: '标签必填'},
+                {key: 'amount', type: 'required', message: '金额必填'},
+                {key: 'amount', type: 'noEqual', value: 0, message: '金额不能为零'},
+                {key: 'happened_at', type: 'required', message: '时间必须选择'},
+            ])
+            Object.assign(errors, validateErrors)
+            if (hasError(errors)) {
+                Dialog.alert({
+                    title: '出错',
+                    message: Object.values(errors).filter(e => e.length).join('\n')
+                }).then(() => {});
+                return
+            }
+            await http.post< Resource<Item>>('/items', formData, {_mock: 'itemCreate', _autoLoading: true}).catch(onError)
             router.push('/items')
         }
         return () => (
@@ -45,14 +64,14 @@ export const ItemCreate = defineComponent({
                     <div class={s.wrapper}>
                         <Tabs v-model:selected={formData.kind} class={s.tabs}>
                             <Tab name="支出" value="expenses">
-                                <Tags kind="expenses" v-model:selected={formData.tag_id[0]} />
+                                <Tags kind="expenses" v-model:selected={formData.tag_ids![0]} />
                             </Tab>
                             <Tab name="收入" value="income">
-                                <Tags kind="income" v-model:selected={formData.tag_id[0]} />
+                                <Tags kind="income" v-model:selected={formData.tag_ids![0]} />
                             </Tab>
                         </Tabs>
                         <div class={s.inputPad_wrapper}>
-                            <InputPad v-model:happenAt={formData.happen_at} v-model:amount={formData.amount} onSubmit={onSubmit} />
+                            <InputPad v-model:happenAt={formData.happened_at} v-model:amount={formData.amount} onSubmit={onSubmit} />
                         </div>
                     </div>
                 </>

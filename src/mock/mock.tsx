@@ -109,7 +109,7 @@ export const mockItemCreate: Mock = (config) => {
         "user_id": 277,
         "amount": 100,
         "note": null,
-        "tags_id": [319],
+        "tag_ids": [319],
         "happened_at": "2023-12-21T05:27:26.108Z",
         "created_at": "2023-12-21T05:27:26.137Z",
         "updated_at": "2023-12-21T05:27:26.137Z",

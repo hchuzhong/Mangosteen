@@ -21,7 +21,7 @@ export const TagForm = defineComponent({
             sign: '',
             kind: kind
         })
-        const errors = ref<{[k in keyof typeof formData]?: string[]}>({})
+        const errors = ref<FormErrors<typeof formData>>({})
         const onSubmit = async (e: Event) => {
             e.preventDefault()
             const rules: Rules<typeof formData> = [
