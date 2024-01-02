@@ -47,11 +47,10 @@ export const InputPad = defineComponent({
             { text: '0', onClick: () => { appendText('0') }},
             { text: '清空', onClick: () => { refAmount.value = '0' }},
             { text: '提交', onClick: () => { 
-                context.emit('update:amount', parseFloat(refAmount.value) * 100)
-                props.onSubmit?.()
-            }
+                    context.emit('update:amount', parseFloat(refAmount.value) * 100)
+                    props.onSubmit?.()
+                }
             },
-
         ]
         const refDatePickerVisible = ref(false)
         const showDatePicker = () => refDatePickerVisible.value = true
