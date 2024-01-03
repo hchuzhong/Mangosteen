@@ -50,8 +50,11 @@
             .tag{
                 color: var(--list-tag-text);
             }
-            .amount{
-                color: var(--list-amount-text);
+            .expenses{
+                color: var(--total-expenses);
+            }
+            .income{
+                color: var(--total-income);
             }
         }
         .time{
