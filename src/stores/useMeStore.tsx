@@ -2,17 +2,17 @@ import { defineStore } from 'pinia'
 import { http } from '../shared/Http'
 import { AxiosResponse } from 'axios'
 
-type MeState = {
+type State = {
     me?: User
     mePromise?: Promise<AxiosResponse<Resource<User>>>
 }
 
-type MeActions = {
+type Actions = {
     refreshMe: () => void
     fetchMe: () => void
 }
 
-export const useMeStore = defineStore<string, MeState, {}, MeActions>('me', {
+export const useMeStore = defineStore<string, State, {}, Actions>('me', {
     state: () => ({
         me: undefined,
         mePromise: undefined

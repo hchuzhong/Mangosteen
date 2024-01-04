@@ -36,8 +36,8 @@ export const Charts = defineComponent({
         const fetchItems1 = async () => {
             if (!props.startDate || !props.endDate) return
             const response = await http.get<{groups: Data, summary: number}>('/items/summary', {
-                happen_after: props.startDate,
-                happen_before: props.endDate,
+                happened_after: props.startDate,
+                happened_before: props.endDate,
                 kind: kind.value,
                 group_by: 'happened_at'
             }, {_mock: 'itemSummary', _autoLoading: true})
@@ -52,8 +52,8 @@ export const Charts = defineComponent({
         const fetchItems2 = async () => {
             if (!props.startDate || !props.endDate) return
             const response = await http.get<{groups: Data2, summary: number}>('/items/summary', {
-                happen_after: props.startDate,
-                happen_before: props.endDate,
+                happened_after: props.startDate,
+                happened_before: props.endDate,
                 kind: kind.value,
                 group_by: 'tag_id'
             }, {_mock: 'itemSummary'})
