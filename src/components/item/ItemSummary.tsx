@@ -17,9 +17,7 @@ export const ItemSummary = defineComponent({
     },
     setup: (props, context) => {
         if (!props.startDate || !props.endDate) return () => (<div>请先选择时间范围</div>)
-        console.log(['items', props.startDate, props.endDate].join('-'))
         const itemStore = useItemStore(['items', props.startDate, props.endDate])()
-        console.log(itemStore)
         useAfterMe(() => itemStore.fetchItems(props.startDate, props.endDate))
         const itemsBalance = reactive({expenses: 0, income: 0, balance: 0})
         const fetchItemsBalace = async () => {
@@ -72,7 +70,7 @@ export const ItemSummary = defineComponent({
                     </ol>
                     <div class={s.more}>
                     {itemStore.hasMore ?
-                        <Button onClick={() => itemStore.fetchItems(props.startDate, props.endDate)}>加载更多</Button> :
+                        <Button onClick={() => itemStore.fetchNextPage(props.startDate, props.endDate)}>加载更多</Button> :
                         <span>没有更多</span>
                     }
                     </div>
