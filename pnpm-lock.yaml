@@ -7,6 +7,9 @@ dependencies:
   echarts:
     specifier: 5.3.2
     version: 5.3.2
+  pinia:
+    specifier: 2.0.16
+    version: 2.0.16(typescript@4.5.4)(vue@3.2.25)
   sass:
     specifier: 1.69.5
     version: 1.69.5
@@ -1619,6 +1622,24 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
+  /pinia@2.0.16(typescript@4.5.4)(vue@3.2.25):
+    resolution: {integrity: sha512-9/LMVO+/epny1NBfC77vnps4g3JRezxhhoF1xLUk8mZkUIxVnwfEAIRiAX8mYBTD/KCwZqnDMqXc8w3eU0FQGg==}
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/devtools-api': 6.5.1
+      typescript: 4.5.4
+      vue: 3.2.25
+      vue-demi: 0.14.6(vue@3.2.25)
+    dev: false
+
   /postcss@8.4.31:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
     engines: {node: ^10 || ^12 || >=14}
@@ -1876,7 +1897,6 @@ packages:
     resolution: {integrity: sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
@@ -2091,6 +2111,21 @@ packages:
       vscode-pug-languageservice: 0.29.8
       vscode-typescript-languageservice: 0.29.8
     dev: true
+
+  /vue-demi@0.14.6(vue@3.2.25):
+    resolution: {integrity: sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      vue: 3.2.25
+    dev: false
 
   /vue-router@4.2.5(vue@3.2.25):
     resolution: {integrity: sha512-DIUpKcyg4+PTQKfFPX88UWhlagBEBEfJ5A8XDXRJLUnZOvcpMF8o/dnL90vpVkGaPbjvXazV/rC1qBKrZlFugw==}

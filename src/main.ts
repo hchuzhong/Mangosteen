@@ -4,10 +4,16 @@ import { createRouter } from 'vue-router'
 import { routes } from './config/routes'
 import { history } from './shared/history'
 import '@svgstore'
-import { fetchMe, mePromise } from './shared/me'
+import { createPinia } from 'pinia'
+import { useMeStore } from './stores/useMeStore'
 
+const pinia = createPinia()
 const router = createRouter({ history, routes })
-fetchMe()
+
+createApp(App).use(pinia).use(router).mount('#app')
+
+const meStore = useMeStore()
+meStore.fetchMe()
 const whiteList: Record<string, 'exact' | 'startsWith'> = {
     '/': 'exact',
     '/items': 'exact',
@@ -24,10 +30,8 @@ router.beforeEach((to, from) => {
             return true
         }
     }
-    return mePromise!.then(
+    return meStore.mePromise!.then(
         () => true,
         () =>  '/sign_in?return_to=' + to.path
     )
 })
-
-createApp(App).use(router).mount('#app')
