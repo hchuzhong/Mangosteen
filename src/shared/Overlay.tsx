@@ -2,8 +2,8 @@ import { defineComponent, onMounted, PropType, ref } from 'vue';
 import { Icon } from './Icon';
 import s from './Overlay.module.scss';
 import { RouterLink, useRouter } from 'vue-router';
-import { mePromise } from './me';
 import { Dialog } from 'vant';
+import { useMeStore } from '../stores/useMeStore';
 
 export const Overlay = defineComponent({
     props: {
@@ -12,11 +12,12 @@ export const Overlay = defineComponent({
         }
     },
     setup: (props, context) => {
+        const meStore = useMeStore()
         const router = useRouter()
         const routePath = `/sign_in?return_to=${router.currentRoute.value.fullPath}`
         const me = ref()
         onMounted(async () => {
-            const response = await mePromise
+            const response = await meStore.mePromise
             me.value = response?.data.resource
         })
         const onSignOut = async () => {

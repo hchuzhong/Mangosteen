@@ -8,8 +8,8 @@ import { hasError, validate } from '../shared/validate';
 import { http } from '../shared/Http';
 import { useBool } from '../hooks/useBool';
 import { useRoute, useRouter } from 'vue-router';
-import { refreshMe } from '../shared/me';
 import { BackIcon } from '../shared/BackIcon';
+import { useMeStore } from '../stores/useMeStore';
 
 export const SignInPage = defineComponent({
     props: {
@@ -18,6 +18,7 @@ export const SignInPage = defineComponent({
         }
     },
     setup: (props, context) => {
+        const meStore = useMeStore()
         const router = useRouter()
         const route = useRoute()
         const { ref: refDisabled, on: enable, off: disable } = useBool(false)
@@ -39,7 +40,7 @@ export const SignInPage = defineComponent({
             const response = await http.post<{'jwt': string}>('/session', formData, {_autoLoading: true}).catch(onError)
             response?.data?.jwt && localStorage.setItem('jwt', response.data.jwt)
             const returnTo = route.query.return_to?.toString()
-            refreshMe()
+            meStore.refreshMe()
             router.push(returnTo || '/')
         }
         const onError = (error: any) => {
