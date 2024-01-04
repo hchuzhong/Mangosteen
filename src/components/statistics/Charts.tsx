@@ -6,6 +6,7 @@ import { PieChart } from './PieChart';
 import { Bars } from './Bars';
 import { http } from '../../shared/Http';
 import { Time } from '../../shared/time';
+import { noKindText } from '../../shared/globalConst';
 
 type DataItem = {happened_at: string, amount: number}
 type Data = DataItem[]
@@ -47,7 +48,7 @@ export const Charts = defineComponent({
 
         const data2 = ref<Data2>([])
         const betterData2 = computed<{name: string, value: number}[]>(() => {
-            return data2.value.map(item => ({name: item.tag.name, value: item.amount}))
+            return data2.value.map(item => ({name: item?.tag?.name ?? noKindText, value: item.amount}))
         })
         const fetchItems2 = async () => {
             if (!props.startDate || !props.endDate) return

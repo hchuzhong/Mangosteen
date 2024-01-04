@@ -1,6 +1,7 @@
 import { defineComponent, PropType } from 'vue';
 import s from './Bars.module.scss';
 import { Money } from '../../shared/Money';
+import { noKindText, noKindEmoji } from '../../shared/globalConst';
 
 export const Bars = defineComponent({
     props: {
@@ -15,11 +16,11 @@ export const Bars = defineComponent({
                     return (
                         <div class={s.topItem}>
                             <div class={s.sign}>
-                                {tag.sign}
+                                {tag && tag.sign ? tag.sign : noKindEmoji}
                             </div>
                             <div class={s.bar_wrapper}>
                                 <div class={s.bar_text}>
-                                    <span> {tag.name} - {percent}% </span>
+                                    <span> {tag && tag.name ? tag.name : noKindText} - {percent}% </span>
                                     <span> ￥<Money value={amount} /> </span>
                                 </div>
                                 <div class={s.bar}>
