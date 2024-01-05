@@ -9,6 +9,7 @@ import { Icon } from '../../shared/Icon';
 import { RouterLink } from 'vue-router';
 import { useAfterMe } from '../../hooks/useAfterMe';
 import { useItemStore } from '../../stores/useItemStore';
+import { noKindText, noKindEmoji } from '../../shared/globalConst';
 
 export const ItemSummary = defineComponent({
     props: {
@@ -56,11 +57,11 @@ export const ItemSummary = defineComponent({
                         {itemStore.items.map((item) => (
                             <li>
                                 <div class={s.sign}>
-                                    <span>{item.tags && item.tags[0] ? item.tags[0].sign : '💰'}</span>
+                                    <span>{item.tags && item.tags[0] ? item.tags[0].sign : noKindEmoji}</span>
                                 </div>
                                 <div class={s.text}>
                                     <div class={s.tagAndAmount}>
-                                    <span class={s.tag}>{item.tags && item.tags[0] ? item.tags[0].name : '未分类'}</span>
+                                    <span class={s.tag}>{item.tags && item.tags[0] ? item.tags[0].name : noKindText}</span>
                                     <span class={s[item.kind]}>￥<Money value={item.amount} /></span>
                                     </div>
                                     <div class={s.time}><DateTime value={item.happened_at} /></div>

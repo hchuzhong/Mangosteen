@@ -23,7 +23,7 @@ export const Tags = defineComponent({
         const timer = ref<number>()
         const currentTag = ref<HTMLDivElement>()
         const onLongPress = (tagId: Tag['id']) => {
-            router.push(`/tags/edit/${tagId}?kind=${props.kind}&return_to=${router.currentRoute.value.fullPath}`)
+            router.push(`/tags/edit/${tagId}?kind=${props.kind}`)
         }
         const onTouchStart = (e: TouchEvent, tag: Tag) => {
             timer.value = setTimeout(() => onLongPress(tag.id), 600)
