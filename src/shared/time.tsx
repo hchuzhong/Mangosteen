@@ -78,4 +78,10 @@ export class Time {
         }
         return new Time(date)
     }
+    wrapDate(startDate: string, endDate: string) {
+        return {
+            startDate: `${startDate} 00:00:00`,
+            endDate: `${endDate} 23:59:59`
+        }
+    }
 }

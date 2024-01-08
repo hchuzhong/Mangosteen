@@ -13,7 +13,7 @@ type Actions = {
     _fetch: (startDate?: string, endDate?: string, firstPage?: boolean) => void
 }
 
-export const useItemStore = (id: string | string[]) => defineStore<string, State, {}, Actions>(
+export const useItemStore = (id: string | (string | undefined)[]) => defineStore<string, State, {}, Actions>(
     typeof id === 'string' ? id : id.join('-'), {
     state: () => ({
         items: [],
