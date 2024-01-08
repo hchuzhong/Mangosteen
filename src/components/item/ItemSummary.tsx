@@ -10,6 +10,7 @@ import { RouterLink } from 'vue-router';
 import { useAfterMe } from '../../hooks/useAfterMe';
 import { useItemStore } from '../../stores/useItemStore';
 import { noKindText, noKindEmoji } from '../../shared/globalConst';
+import { Time } from '../../shared/time.tsx'
 
 export const ItemSummary = defineComponent({
     props: {
@@ -17,26 +18,31 @@ export const ItemSummary = defineComponent({
         endDate: String
     },
     setup: (props, context) => {
-        if (!props.startDate || !props.endDate) return () => (<div>请先选择时间范围</div>)
         const itemStore = useItemStore(['items', props.startDate, props.endDate])()
         useAfterMe(() => itemStore.fetchItems(props.startDate, props.endDate))
         const itemsBalance = reactive({expenses: 0, income: 0, balance: 0})
-        const fetchItemsBalace = async () => {
-            if (!props.startDate || !props.endDate) return
+        const fetchItemsBalace = async (startDate, endDate) => {
+            if (!startDate || !endDate) return
             const response = await http.get('/items/balance', {
-                happened_after: props.startDate,
-                happened_before: props.endDate
+                happened_after: startDate,
+                happened_before: endDate
             }, {_mock: 'itemIndexBalance'})
             Object.assign(itemsBalance, response.data)
         }
         useAfterMe(fetchItemsBalace)
         watch(() => [props.startDate, props.endDate], () => {
             itemStore.$reset()
-            itemStore.fetchItems(props.startDate, props.endDate)
+            const {startDate, endDate} = new Time().wrapDate(props.startDate, props.endDate)
+            itemStore.fetchItems(startDate, endDate)
             Object.assign(itemsBalance, {expenses: 0, income: 0, balance: 0})
-            fetchItemsBalace()
+            fetchItemsBalace(startDate, endDate)
         })
+        const fetchNextPage = () => {
+            const {startDate, endDate} = new Time().wrapDate(props.startDate, props.endDate)
+            itemStore.fetchNextPage(startDate, endDate)
+        }
         return () => (
+            (!props.startDate || !props.endDate) ? <div>请先选择时间范围</div> :
             <div class={s.wrapper}>
                 {itemStore.items && itemStore.items.length ? (<>
                     <ul class={s.total}>
@@ -71,13 +77,14 @@ export const ItemSummary = defineComponent({
                     </ol>
                     <div class={s.more}>
                     {itemStore.hasMore ?
-                        <Button onClick={() => itemStore.fetchNextPage(props.startDate, props.endDate)}>加载更多</Button> :
-                        <span>没有更多</span>
+                        <Button onClick={fetchNextPage}>加载更多</Button> :
+                        <p>没有更多</p>
                     }
                     </div>
                 </>) : (<>
-                    <Center class={s.pig_wrapper}>
+                    <Center class={s.pig_wrapper} direction='|'>
                         <Icon name='pig' class={s.pig} />
+                        <p>目前没有数据</p>
                     </Center>
                     <div class={s.button_wrapper}>
                         <RouterLink to='/items/create'>

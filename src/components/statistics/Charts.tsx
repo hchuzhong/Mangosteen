@@ -22,15 +22,16 @@ export const Charts = defineComponent({
     },
     setup: (props, context) => {
         const kind = ref('expenses')
+        const beijingZone = 'T00:00:00.000+0800'
         const data1 = ref<Data>([])
         const betterData1 = computed<[string, number][]>(() => {
             if (!props.startDate || !props.endDate) return []
             const dataObj: Record<string, number> = {}
-            data1.value.forEach(item => (dataObj[new Time(item.happened_at).getTimeStamp()] = item.amount))
+            data1.value.forEach(item => (dataObj[new Time(item.happened_at + beijingZone).getTimeStamp()] = item.amount))
             const diff = new Date(props.endDate).getTime() - new Date(props.startDate).getTime()
             const days = diff / DAY + 1
             return Array.from({length: days}).map((_, i) => {
-                const time = new Time(props.startDate).add(i, 'day').getTimeStamp()
+                const time = new Time(props.startDate + beijingZone).add(i, 'day').getTimeStamp()
                 return [new Date(time).toISOString(), dataObj[time] || 0 ]
             }) as [string, number][]
         })
