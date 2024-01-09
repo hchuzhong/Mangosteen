@@ -7,6 +7,26 @@ import { svgstore } from './src/vite_plugins/svgstore';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id: any) {
+          if (id.includes('echarts')) {
+            return 'echarts'
+          }
+          if (id.includes('mock') || id.includes('faker')) {
+            return 'mock'
+          }
+          if (id.includes('vant')) {
+            return 'vant'
+          }
+          if (id.includes('node_modules')) {
+            return 'vendor'
+          }
+        }
+      }
+    }
+  },
   plugins: [
     vue(),
     vueJsx({
@@ -21,8 +41,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api/v1': {
-        // target: 'http://8.134.183.52:3000',
-        target: 'http://127.0.0.1:1234',
+        target: 'http://8.134.183.52:3000',
+        // target: 'http://127.0.0.1:1234',
       }
     }
   }

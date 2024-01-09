@@ -4,6 +4,7 @@ import s from './Overlay.module.scss';
 import { RouterLink, useRouter } from 'vue-router';
 import { Dialog } from 'vant';
 import { useMeStore } from '../stores/useMeStore';
+import { useItemStore } from '../stores/useItemStore';
 
 export const Overlay = defineComponent({
     props: {
@@ -26,7 +27,7 @@ export const Overlay = defineComponent({
                 message: '确认退出登录？'
             })
             localStorage.removeItem('jwt')
-            router.push(routePath)
+            window.location.reload()
         }
         return () => <>
             <div class={s.mask} onClick={props.onClose}></div>

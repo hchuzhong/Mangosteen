@@ -10,7 +10,7 @@ import { RouterLink } from 'vue-router';
 import { useAfterMe } from '../../hooks/useAfterMe';
 import { useItemStore } from '../../stores/useItemStore';
 import { noKindText, noKindEmoji } from '../../shared/globalConst';
-import { Time } from '../../shared/time.tsx'
+import { Time } from '../../shared/time';
 
 export const ItemSummary = defineComponent({
     props: {
@@ -19,9 +19,8 @@ export const ItemSummary = defineComponent({
     },
     setup: (props, context) => {
         const itemStore = useItemStore(['items', props.startDate, props.endDate])()
-        useAfterMe(() => itemStore.fetchItems(props.startDate, props.endDate))
         const itemsBalance = reactive({expenses: 0, income: 0, balance: 0})
-        const fetchItemsBalace = async (startDate, endDate) => {
+        const fetchItemsBalace = async (startDate?: string, endDate?: string) => {
             if (!startDate || !endDate) return
             const response = await http.get('/items/balance', {
                 happened_after: startDate,
@@ -29,8 +28,14 @@ export const ItemSummary = defineComponent({
             }, {_mock: 'itemIndexBalance'})
             Object.assign(itemsBalance, response.data)
         }
-        useAfterMe(fetchItemsBalace)
+        useAfterMe(() => {
+            if (!props.startDate || !props.endDate) return
+            const {startDate, endDate} = new Time().wrapDate(props.startDate, props.endDate)
+            fetchItemsBalace(startDate, endDate)
+            itemStore.fetchItems(startDate, endDate)
+        })
         watch(() => [props.startDate, props.endDate], () => {
+            if (!props.startDate || !props.endDate) return
             itemStore.$reset()
             const {startDate, endDate} = new Time().wrapDate(props.startDate, props.endDate)
             itemStore.fetchItems(startDate, endDate)
@@ -38,6 +43,7 @@ export const ItemSummary = defineComponent({
             fetchItemsBalace(startDate, endDate)
         })
         const fetchNextPage = () => {
+            if (!props.startDate || !props.endDate) return
             const {startDate, endDate} = new Time().wrapDate(props.startDate, props.endDate)
             itemStore.fetchNextPage(startDate, endDate)
         }
