@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { mockTagShow, mockItemCreate, mockSession, mockTagIndex, mockItemIndex, mockItemIndexBalance, mockItemSummary } from "../mock/mock";
 import { Toast } from "vant";
 
 type GetConfig = Omit<AxiosRequestConfig, 'params' | 'url' | 'method'>
@@ -28,39 +27,6 @@ export class Http {
     }
 }
 
-const mock = (response: AxiosResponse) => {
-    return
-    if (location.hostname !== 'localhost'
-        && location.hostname !== '127.0.0.1') { return false }
-    switch (response.config?._mock) {
-        case 'tagIndex':
-            [response.status, response.data] = mockTagIndex(response.config)
-            return true
-        case 'session':
-            [response.status, response.data] = mockSession(response.config)
-            return true
-        case 'itemCreate':
-            [response.status, response.data] = mockItemCreate(response.config)
-            return true
-        case 'getTag':
-            [response.status, response.data] = mockTagShow(response.config)
-            return true
-        case 'editTag':
-            [response.status, response.data] = mockTagShow(response.config)
-            return true
-        case 'itemIndex':
-            [response.status, response.data] = mockItemIndex(response.config)
-            return true
-        case 'itemIndexBalance':
-            [response.status, response.data] = mockItemIndexBalance(response.config)
-            return true
-        case 'itemSummary':
-            [response.status, response.data] = mockItemSummary(response.config)
-            return true
-    }
-    return false
-}
-
 export const http = new Http('/api/v1')
 
 http.instance.interceptors.request.use(config => {
@@ -85,17 +51,7 @@ http.instance.interceptors.response.use((response) => {
     error?.response.config?._autoLoading && Toast.clear()
     throw error
 })
-http.instance.interceptors.response.use((response) => {
-    mock(response)
-    return response
-}, (error) => {
-    mock(error.response)
-    if (error.response.status >= 400) {
-        throw error
-    } else {
-        return error.response
-    }
-})
+
 http.instance.interceptors.response.use(
     response => response,
     error => {
@@ -108,3 +64,53 @@ http.instance.interceptors.response.use(
         throw error
     }
 )
+
+if (DEBUG) {
+    // import { mockTagShow, mockItemCreate, mockSession, mockTagIndex, mockItemIndex, mockItemIndexBalance, mockItemSummary } from "../mock/mock";
+    import("../mock/mock").then(({mockTagShow, mockItemCreate, mockSession, mockTagIndex, mockItemIndex, mockItemIndexBalance, mockItemSummary}) => {
+        const mock = (response: AxiosResponse) => {
+            return
+            if (location.hostname !== 'localhost'
+                && location.hostname !== '127.0.0.1') { return false }
+            switch (response.config?._mock) {
+                case 'tagIndex':
+                    [response.status, response.data] = mockTagIndex(response.config)
+                    return true
+                case 'session':
+                    [response.status, response.data] = mockSession(response.config)
+                    return true
+                case 'itemCreate':
+                    [response.status, response.data] = mockItemCreate(response.config)
+                    return true
+                case 'getTag':
+                    [response.status, response.data] = mockTagShow(response.config)
+                    return true
+                case 'editTag':
+                    [response.status, response.data] = mockTagShow(response.config)
+                    return true
+                case 'itemIndex':
+                    [response.status, response.data] = mockItemIndex(response.config)
+                    return true
+                case 'itemIndexBalance':
+                    [response.status, response.data] = mockItemIndexBalance(response.config)
+                    return true
+                case 'itemSummary':
+                    [response.status, response.data] = mockItemSummary(response.config)
+                    return true
+            }
+            return false
+        }
+        http.instance.interceptors.response.use((response) => {
+            mock(response)
+            return response
+        }, (error) => {
+            mock(error.response)
+            if (error.response.status >= 400) {
+                throw error
+            } else {
+                return error.response
+            }
+        })
+    })
+
+}
