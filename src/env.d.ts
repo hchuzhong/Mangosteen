@@ -11,12 +11,14 @@ declare var DEBUG: boolean
 
 type JSONValue = string | number | null | boolean | JSONValue[] | { [key: string]: JSONValue };
 
+type KindType = 'expenses' | 'income';
+
 type Tag = {
   id: number,
   user_id: number,
   name: string,
   sign: string,
-  kind: expenses | income
+  kind: KindType
 }
 
 type Item = {
@@ -26,7 +28,7 @@ type Item = {
   tag_ids: number[],
   tags?: Tag[],
   happened_at: string,
-  kind: "expenses" | "income"
+  kind: KindType
 }
 
 type Resource<T = any> = {
@@ -52,3 +54,17 @@ type User = {
 }
 
 type FormErrors<T> = {[K in keyof T]: string[]}
+
+type ObjectKindType = {
+  expenses: 'expenses';
+  income: 'income';
+}
+
+type TimeType = {
+  curMonth: 'curMonth',
+  lastMonth: 'lastMonth',
+  curYear: 'curYear',
+  customTime: 'customTime'
+}
+
+type CustomTimeType = {startDate: string, endDate: string}

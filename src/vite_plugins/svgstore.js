@@ -7,10 +7,10 @@ import { optimize } from 'svgo' // 用于优化 SVG 文件
 export const svgstore = (options = {}) => {
     const inputFolder = options.inputFolder || 'src/assets/icons';
     return {
-    name: 'svgstore',
-    resolveId(id) {
-        if (id === '@svgstore') {
-        return 'svg_bundle.js'
+        name: 'svgstore',
+        resolveId(id) {
+            if (id === '@svgstore') {
+            return 'svg_bundle.js'
         }
     },
     load(id) {
@@ -25,9 +25,9 @@ export const svgstore = (options = {}) => {
         }
         const { data: code } = optimize(sprites.toString({ inline: options.inline }), {
             plugins: [
-            'cleanupAttrs', 'removeDoctype', 'removeComments', 'removeTitle', 'removeDesc', 
-            'removeEmptyAttrs',
-            { name: "removeAttrs", params: { attrs: "(data-name|data-xxx)" } }
+                'cleanupAttrs', 'removeDoctype', 'removeComments', 'removeTitle', 'removeDesc', 
+                'removeEmptyAttrs',
+                { name: "removeAttrs", params: { attrs: "(data-name|data-xxx)" } }
             ]
         })
         return `const div = document.createElement('div')

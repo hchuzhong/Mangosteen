@@ -78,10 +78,25 @@ export class Time {
         }
         return new Time(date)
     }
-    wrapDate(startDate: string, endDate: string) {
+}
+
+export const TimeFunc = {
+    wrapDate: function(startDate: string, endDate: string) {
         return {
             startDate: `${startDate} 00:00:00`,
             endDate: `${endDate} 23:59:59`
         }
+    },
+    wrapDateDiff: function(startDate: string, endDate: string) {
+        const start = new Time(`${startDate} 00:00:00`);
+        const end = new Time(`${endDate} 23:59:59`);
+        return end.getTimeStamp() - start.getTimeStamp();
     }
+}
+
+export const TimeConst = {
+    DAY_MILLISECOND: 24 * 60 * 60 * 1000,
+    HOUR_MILLISECOND: 60 * 60 * 1000,
+    MINUTE_MILLISECOND: 60 * 1000,
+    SECOND_MILLISECOND: 1000,
 }

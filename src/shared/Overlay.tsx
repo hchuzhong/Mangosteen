@@ -4,7 +4,12 @@ import s from './Overlay.module.scss';
 import { RouterLink, useRouter } from 'vue-router';
 import { Dialog } from 'vant';
 import { useMeStore } from '../stores/useMeStore';
-import { useItemStore } from '../stores/useItemStore';
+
+type LinkConfigType = {
+    to: string,
+    iconName: 'data' | 'charts' | 'export' | 'notify',
+    text: string
+}[]
 
 export const Overlay = defineComponent({
     props: {
@@ -15,7 +20,8 @@ export const Overlay = defineComponent({
     setup: (props, context) => {
         const meStore = useMeStore()
         const router = useRouter()
-        const routePath = `/sign_in?return_to=${router.currentRoute.value.fullPath}`
+        const curPath = router.currentRoute.value.fullPath
+        const routePath = `/sign_in?return_to=${curPath}`
         const me = ref()
         onMounted(async () => {
             const response = await meStore.mePromise
@@ -29,6 +35,12 @@ export const Overlay = defineComponent({
             localStorage.removeItem('jwt')
             window.location.reload()
         }
+        const linkConfig: LinkConfigType = [
+            { to: '/items', iconName: 'data', text: '记账数据' },
+            { to: '/statistics', iconName: 'charts', text: '统计图表' },
+            { to: '/export', iconName: 'export', text: '导出数据' },
+            { to: '/notify', iconName: 'notify', text: '记账提醒' }
+        ]
         return () => <>
             <div class={s.mask} onClick={props.onClose}></div>
             <div class={s.overlay}>
@@ -46,30 +58,14 @@ export const Overlay = defineComponent({
                 </section>
                 <nav>
                     <ul class={s.action_list}>
-                    <li>
-                            <RouterLink to='/items' class={s.action}>
-                                <Icon name='data' class={s.icon} />
-                                <span>记账数据</span>
-                            </RouterLink>
-                        </li>
-                        <li>
-                            <RouterLink to='/statistics' class={s.action}>
-                                <Icon name='charts' class={s.icon} />
-                                <span>统计图表</span>
-                            </RouterLink>
-                        </li>
-                        <li>
-                            <RouterLink to='/export' class={s.action}>
-                                <Icon name='export' class={s.icon} />
-                                <span>导出数据</span>
-                            </RouterLink>
-                        </li>
-                        <li>
-                            <RouterLink to='/notify' class={s.action}>
-                                <Icon name='notify' class={s.icon} />
-                                <span>记账提醒</span>
-                            </RouterLink>
-                        </li>
+                        {linkConfig.map((item, index) => (
+                            <li>
+                                <RouterLink to={me.value ? item.to : curPath} class={s.action}  style={!me.value ? 'cursor: not-allowed;' : ''}>
+                                    <Icon name={item.iconName} class={s.icon} />
+                                    <span>{item.text}</span>
+                                </RouterLink>
+                            </li>
+                        ))}
                     </ul>
                 </nav>
             </div>

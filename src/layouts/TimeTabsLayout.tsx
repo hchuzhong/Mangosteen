@@ -3,9 +3,9 @@ import s from './TimeTabsLayout.module.scss';
 import { MainLayout } from './MainLayout';
 import { Form, FormItem } from '../shared/Form';
 import { OverlayIcon } from '../shared/Overlay';
-import { Time } from '../shared/time';
+import { Time, TimeConst, TimeFunc } from '../shared/time';
 import { Tab, Tabs } from '../shared/Tabs';
-import { Overlay } from 'vant';
+import { Overlay, Toast } from 'vant';
 import { RouterLink } from 'vue-router';
 import { FloatButton } from '../shared/FloatButton';
 
@@ -52,6 +52,12 @@ export const TimeTabsLayout = defineComponent({
         const refOverlayVisible = ref(false)
         const onSubmitCustomTime = (e: Event) => {
             e.preventDefault()
+            if (refSelected.value === 'customTime' && props.hideThisYear) {
+                const diffTime = TimeFunc.wrapDateDiff(tempTime.start!, tempTime.end!)
+                if (diffTime <= 0) return Toast('开始时间不能大于结束时间')
+                const moreThan60Days = diffTime >= 60 * TimeConst.DAY_MILLISECOND
+                if (moreThan60Days) return Toast('时间跨度不能超过 60 天')
+            }
             refOverlayVisible.value = false
             Object.assign(customTime, tempTime)
         }
