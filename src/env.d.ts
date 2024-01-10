@@ -67,4 +67,4 @@ type TimeType = {
   customTime: 'customTime'
 }
 
-type CustomTimeType = {startDate: string, endDate: string}
+type CustomTimeType = {startDate?: string, endDate?: string}

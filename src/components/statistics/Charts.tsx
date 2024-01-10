@@ -7,6 +7,8 @@ import { Bars } from './Bars';
 import { http } from '../../shared/Http';
 import { Time } from '../../shared/time';
 import { noKindText, GlobalConst } from '../../shared/globalConst';
+import { usePreferenceStore } from '../../stores/usePreferenceStore';
+import { onUnmounted } from 'vue';
 
 type DataItem = {happened_at: string, amount: number}
 type Data = DataItem[]
@@ -21,7 +23,8 @@ export const Charts = defineComponent({
         endDate: String
     },
     setup: (props, context) => {
-        const kind = ref(GlobalConst.expenses)
+        const preferenceStore = usePreferenceStore()
+        const kind = ref(preferenceStore.statisticsKind)
         const beijingZone = 'T00:00:00.000+0800'
         const data1 = ref<Data>([])
         const betterData1 = computed<[string, number][]>(() => {
@@ -74,6 +77,9 @@ export const Charts = defineComponent({
         watch(() => kind.value, () => {
             fetchItems1()
             fetchItems2()
+        })
+        onUnmounted(() => {
+            preferenceStore.statisticsKind = kind.value
         })
 
         return () => (
