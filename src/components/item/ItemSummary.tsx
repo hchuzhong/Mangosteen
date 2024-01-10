@@ -10,7 +10,7 @@ import { RouterLink } from 'vue-router';
 import { useAfterMe } from '../../hooks/useAfterMe';
 import { useItemStore } from '../../stores/useItemStore';
 import { noKindText, noKindEmoji } from '../../shared/globalConst';
-import { Time } from '../../shared/time';
+import { TimeFunc } from '../../shared/time';
 
 export const ItemSummary = defineComponent({
     props: {
@@ -30,21 +30,21 @@ export const ItemSummary = defineComponent({
         }
         useAfterMe(() => {
             if (!props.startDate || !props.endDate) return
-            const {startDate, endDate} = new Time().wrapDate(props.startDate, props.endDate)
+            const {startDate, endDate} = TimeFunc.wrapDate(props.startDate, props.endDate)
             fetchItemsBalace(startDate, endDate)
             itemStore.fetchItems(startDate, endDate)
         })
         watch(() => [props.startDate, props.endDate], () => {
             if (!props.startDate || !props.endDate) return
             itemStore.$reset()
-            const {startDate, endDate} = new Time().wrapDate(props.startDate, props.endDate)
+            const {startDate, endDate} = TimeFunc.wrapDate(props.startDate, props.endDate)
             itemStore.fetchItems(startDate, endDate)
             Object.assign(itemsBalance, {expenses: 0, income: 0, balance: 0})
             fetchItemsBalace(startDate, endDate)
         })
         const fetchNextPage = () => {
             if (!props.startDate || !props.endDate) return
-            const {startDate, endDate} = new Time().wrapDate(props.startDate, props.endDate)
+            const {startDate, endDate} = TimeFunc.wrapDate(props.startDate, props.endDate)
             itemStore.fetchNextPage(startDate, endDate)
         }
         return () => (
