@@ -44,4 +44,4 @@ export const useItemStore = (id: string | (string | undefined)[]) => defineStore
             this._fetch(startDate, endDate, true)
         }
     }
-})
+})()

@@ -6,7 +6,7 @@ import { PieChart } from './PieChart';
 import { Bars } from './Bars';
 import { http } from '../../shared/Http';
 import { Time } from '../../shared/time';
-import { noKindText } from '../../shared/globalConst';
+import { noKindText, GlobalConst } from '../../shared/globalConst';
 
 type DataItem = {happened_at: string, amount: number}
 type Data = DataItem[]
@@ -21,7 +21,7 @@ export const Charts = defineComponent({
         endDate: String
     },
     setup: (props, context) => {
-        const kind = ref('expenses')
+        const kind = ref(GlobalConst.expenses)
         const beijingZone = 'T00:00:00.000+0800'
         const data1 = ref<Data>([])
         const betterData1 = computed<[string, number][]>(() => {
@@ -79,8 +79,8 @@ export const Charts = defineComponent({
         return () => (
             <div class={s.wrapper}>
                 <FormItem label='类型' type='select' options={[
-                    { value: 'expenses', text: '支出' },
-                    { value: 'income', text: '收入' },
+                    { value: GlobalConst.expenses, text: '支出' },
+                    { value: GlobalConst.income, text: '收入' },
                 ]} v-model={kind.value} />
                 <LineChart data={betterData1.value} />
                 <PieChart data={betterData2.value} />

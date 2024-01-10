@@ -9,7 +9,7 @@ import { RouterLink, useRouter } from 'vue-router';
 export const Tags = defineComponent({
     props: {
         kind: {
-            type: String as PropType<'expenses' | 'income'>,
+            type: String as PropType<KindType>,
             required: true
         },
         selected: Number

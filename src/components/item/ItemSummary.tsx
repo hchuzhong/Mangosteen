@@ -18,7 +18,7 @@ export const ItemSummary = defineComponent({
         endDate: String
     },
     setup: (props, context) => {
-        const itemStore = useItemStore(['items', props.startDate, props.endDate])()
+        const itemStore = useItemStore(['items', props.startDate, props.endDate])
         const itemsBalance = reactive({expenses: 0, income: 0, balance: 0})
         const fetchItemsBalace = async (startDate?: string, endDate?: string) => {
             if (!startDate || !endDate) return

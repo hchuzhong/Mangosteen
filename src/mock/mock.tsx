@@ -1,12 +1,13 @@
 import { faker } from '@faker-js/faker'
 import { AxiosRequestConfig } from 'axios';
+import { GlobalConst } from '../shared/globalConst';
 
 type Mock = (config: AxiosRequestConfig) => [number, any]
 
 export const mockItemSummary: Mock = (config) => {
     const {group_by, kind} = config.params
     if (group_by === 'happened_at') {
-        if (kind === 'expenses') {
+        if (kind === GlobalConst.expenses) {
             return [200, {
                 groups: [
                     {happened_at: "2023-12-12", amount: 300},
@@ -26,7 +27,7 @@ export const mockItemSummary: Mock = (config) => {
             }]
         }
     } else {
-        if (kind === 'expenses') {
+        if (kind === GlobalConst.expenses) {
             return [200, {
                 groups: [
                     {tag_id: 324, amount: 500, tag: {id: 324, name: 'test1', sign: faker.internet.emoji()}},
@@ -113,7 +114,7 @@ export const mockItemCreate: Mock = (config) => {
         "happened_at": "2023-12-21T05:27:26.108Z",
         "created_at": "2023-12-21T05:27:26.137Z",
         "updated_at": "2023-12-21T05:27:26.137Z",
-        "kind": "expenses"
+        "kind": GlobalConst.expenses
     }}]
 }
 
@@ -146,7 +147,7 @@ export const mockTagIndex: Mock = (config) => {
             sign: faker.internet.emoji(),
             kind
         }))
-    if (kind === 'expenses') {
+    if (kind === GlobalConst.expenses) {
         if (page === 1 || !page) {
             return [200, createBody(25)]
         } else {

@@ -10,6 +10,7 @@ import { Dialog } from 'vant';
 import { AxiosError } from 'axios';
 import { BackIcon } from '../../shared/BackIcon';
 import { hasError, validate } from '../../shared/validate';
+import { GlobalConst } from '../../shared/globalConst';
 
 export const ItemCreate = defineComponent({
     props: {
@@ -19,7 +20,7 @@ export const ItemCreate = defineComponent({
     },
     setup: (props, context) => {
         const formData = reactive<Partial<Item>>({
-            kind: 'expenses',
+            kind: GlobalConst.expenses,
             tag_ids: [],
             amount: 0,
             happened_at: new Date().toISOString()
@@ -63,11 +64,11 @@ export const ItemCreate = defineComponent({
                 default: () => <>
                     <div class={s.wrapper}>
                         <Tabs v-model:selected={formData.kind} class={s.tabs}>
-                            <Tab name="支出" value="expenses">
-                                <Tags kind="expenses" v-model:selected={formData.tag_ids![0]} />
+                            <Tab name="支出" value={GlobalConst.expenses}>
+                                <Tags kind={GlobalConst.expenses} v-model:selected={formData.tag_ids![0]} />
                             </Tab>
-                            <Tab name="收入" value="income">
-                                <Tags kind="income" v-model:selected={formData.tag_ids![0]} />
+                            <Tab name="收入" value={GlobalConst.income}>
+                                <Tags kind={GlobalConst.income} v-model:selected={formData.tag_ids![0]} />
                             </Tab>
                         </Tabs>
                         <div class={s.inputPad_wrapper}>
