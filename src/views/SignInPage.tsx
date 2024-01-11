@@ -54,6 +54,10 @@ export const SignInPage = defineComponent({
             await http.post('/validation_codes', {email: formData.email}, {_autoLoading: true}).catch(onError).finally(disable)
             refValidationCode.value.startCount()
         }
+        if (route.query.preview) {
+            formData.email = 'test@test.com'
+            formData.code = '123456'
+        }
         return () => (
             <MainLayout>{{
                 title: () => '登录',
