@@ -19,7 +19,7 @@ export const TagForm = defineComponent({
             id: undefined,
             name: '',
             sign: '',
-            kind: kind
+            kind: kind as KindType
         })
         const errors = ref<FormErrors<typeof formData>>({})
         const onSubmit = async (e: Event) => {
