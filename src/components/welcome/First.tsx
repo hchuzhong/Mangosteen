@@ -5,7 +5,7 @@ export const First: FunctionalComponent = () => {
   return (
     <div class={s.card}>
       <Icon name="pig" class={s.icon} />
-      <h2>会挣钱<br />还会省钱</h2>
+      <h2>Makes Money<br />And Saves Money</h2>
     </div>
   )
 }

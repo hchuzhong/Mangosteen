@@ -5,7 +5,7 @@ import { SkipFeatures } from '../../shared/SkipFeatures';
 export const SecondActions: FunctionalComponent = () => {
   return <div class={s.actions}>
     <SkipFeatures class={s.fake} />
-    <RouterLink to="/welcome/3" >下一页</RouterLink>
+    <RouterLink to="/welcome/3" >Next Page</RouterLink>
     <SkipFeatures />
   </div>
 }
