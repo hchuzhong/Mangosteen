@@ -1,5 +1,6 @@
 .wrapper {
-    height: calc(100vh - var(--welcome-nav-height));
+    height: calc(100vh - var(--welcome-nav-height) + 2px);
+    width: 100vw;
     display: flex;
     flex-direction: column;
     background-image: linear-gradient(to bottom, var(--welcome-bg-start) 0%, var(--welcome-bg-end) 100%);

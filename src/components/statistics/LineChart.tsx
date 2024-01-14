@@ -10,7 +10,7 @@ const echartsOption = {
         trigger: 'axis',
         formatter: ([item]: any) => {
             const [x, y] = item.data
-            return `${new Time(new Date(x)).format('YYYY年MM月DD日')} ￥${formatMoney(y)}`
+            return `${new Time(new Date(x)).format('YYYY-MM-DD')} ￥${formatMoney(y)}`
         },
     },
     grid: [{ left: 16, top: 20, right: 16, bottom: 20 }],

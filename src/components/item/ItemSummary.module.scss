@@ -12,10 +12,10 @@
         flex-direction: column;
         text-align: center;
         &:first-child {
-            color: var(--total-income);
+            color: var(--total-expenses);
         }
         &:nth-child(2) {
-            color: var(--total-expenses);
+            color: var(--total-income);
         }
     }
 }

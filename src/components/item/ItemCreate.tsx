@@ -31,7 +31,7 @@ export const ItemCreate = defineComponent({
         const onError = (error: AxiosError<ResourceError>) => {
             if (error.response?.status === 422) {
                 Dialog.alert({
-                    title: '出错',
+                    title: 'Mistake',
                     message: Object.values(error.response.data.errors).join('\n')
                 }).then(() => {});
             }
@@ -40,16 +40,16 @@ export const ItemCreate = defineComponent({
         const onSubmit = async () => {
             Object.assign(errors, {kind: [], tag_ids: [], amount: [], happened_at: []})
             const validateErrors = validate(formData, [
-                {key: 'kind', type: 'required', message: '类型必填'},
-                {key: 'tag_ids', type: 'required', message: '标签必填'},
-                {key: 'amount', type: 'required', message: '金额必填'},
-                {key: 'amount', type: 'noEqual', value: 0, message: '金额不能为零'},
-                {key: 'happened_at', type: 'required', message: '时间必须选择'},
+                {key: 'kind', type: 'required', message: 'Kind is required'},
+                {key: 'tag_ids', type: 'required', message: 'Tag is required'},
+                {key: 'amount', type: 'required', message: 'Amount is required'},
+                {key: 'amount', type: 'noEqual', value: 0, message: 'The amount cannot be 0'},
+                {key: 'happened_at', type: 'required', message: 'Time must be chosen'},
             ])
             Object.assign(errors, validateErrors)
             if (hasError(errors)) {
                 Dialog.alert({
-                    title: '出错',
+                    title: 'Mistake',
                     message: Object.values(errors).filter(e => e.length).join('\n')
                 }).then(() => {});
                 return
@@ -59,15 +59,15 @@ export const ItemCreate = defineComponent({
         }
         return () => (
             <MainLayout class={s.layout}>{{
-                title: () => '记一笔',
+                title: () => 'write down an account',
                 icon: () => <BackIcon />,
                 default: () => <>
                     <div class={s.wrapper}>
                         <Tabs v-model:selected={formData.kind} class={s.tabs}>
-                            <Tab name="支出" value={GlobalConst.expenses}>
+                            <Tab name="Expenses" value={GlobalConst.expenses}>
                                 <Tags kind={GlobalConst.expenses} v-model:selected={formData.tag_ids![0]} />
                             </Tab>
-                            <Tab name="收入" value={GlobalConst.income}>
+                            <Tab name="Income" value={GlobalConst.income}>
                                 <Tags kind={GlobalConst.income} v-model:selected={formData.tag_ids![0]} />
                             </Tab>
                         </Tabs>

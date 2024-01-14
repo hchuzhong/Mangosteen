@@ -45,7 +45,7 @@ export const Tags = defineComponent({
                         <Icon name="add" class={s.createTag} />
                     </div>
                     <div class={s.name}>
-                        新增
+                        Add
                     </div>
                 </RouterLink>
                 {tags.value.map(tag =>
@@ -62,7 +62,7 @@ export const Tags = defineComponent({
                 )}
             </div>
             <div class={s.more}>
-                {noMoreThanOnePage.value ? null : hasMore.value ? <Button class={s.loadMore} onClick={fetchTags}>加载更多</Button> : <span class={s.nomore}>没有更多内容了</span> }
+                {noMoreThanOnePage.value ? null : hasMore.value ? <Button class={s.loadMore} onClick={fetchTags}>Load More</Button> : <span class={s.nomore}>Nothing more</span> }
             </div>
         </>
     }

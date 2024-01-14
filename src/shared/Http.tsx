@@ -58,7 +58,7 @@ http.instance.interceptors.response.use(
         if (error.response) {
             const axiosError = error as AxiosError
             if (axiosError.response?.status === 429) {
-                alert('你太频繁了')
+                Toast('Requests are too frequent')
             }
         }
         throw error

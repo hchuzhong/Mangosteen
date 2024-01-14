@@ -19,16 +19,16 @@ export const InputPad = defineComponent({
             const includeDot = refAmount.value.includes('.')
             const isDefaultValue = refAmount.value === '0'
             const amountLength = refAmount.value.length
-            // 最多 13 个数字
+            // Maximum 13 digits
             if (amountLength >= 13) return
-            // 小数点后只能输入两位
+            // Enter only two digits after the decimal point
             if (includeDot && amountLength - refAmount.value.indexOf('.') > 2) return
-            // 只能出现一个 .
+            // Only one can appear .
             if (nString === '.' && includeDot) return
             else if (isDefaultValue) {
-                // 为 0 的时候不能继续输入 0
+                // Cannot continue to enter 0 when it is 0
                 if (nString === '0') return
-                // 输入数字的时候需要把 0 替换掉
+                // You need to replace the 0 when entering numbers
                 if (nString !== '.') refAmount.value = ''
             }
             refAmount.value += nString
@@ -45,16 +45,16 @@ export const InputPad = defineComponent({
             { text: '9', onClick: () => { appendText('9') }},
             { text: '.', onClick: () => { appendText('.') }},
             { text: '0', onClick: () => { appendText('0') }},
-            { text: '清空', onClick: () => { refAmount.value = '0' }},
-            { text: '提交', onClick: () => { 
+            { text: 'Clear', onClick: () => { refAmount.value = '0' }},
+            { text: 'Submit', onClick: () => { 
                     context.emit('update:amount', parseFloat(refAmount.value) * 100)
                     props.onSubmit?.()
                 }
             },
         ]
         const refDatePickerVisible = ref(false)
-        const showDatePicker = () => refDatePickerVisible.value = true
-        const hideDatePicker = () => refDatePickerVisible.value = false
+        const showDatePicker = () => (refDatePickerVisible.value = true)
+        const hideDatePicker = () => (refDatePickerVisible.value = false)
         const setDate = (date: Date) => { 
             context.emit('update:happenAt', date.toISOString())
             hideDatePicker()
@@ -70,7 +70,6 @@ export const InputPad = defineComponent({
                             <DatetimePicker
                                 modelValue={props.happenAt ? new Date(props.happenAt) : new Date()}
                                 type="date"
-                                title="选择年月日"
                                 onConfirm={setDate}
                                 onCancel={hideDatePicker}
                             />

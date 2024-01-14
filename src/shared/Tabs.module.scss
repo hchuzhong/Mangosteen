@@ -10,7 +10,7 @@
         z-index: 1;
         top: 0;
         background: var(--navbar-bg-end);
-
+        overflow-x: auto;
         > li {
             flex-grow: 1;
             flex-shrink: 0;

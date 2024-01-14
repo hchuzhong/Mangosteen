@@ -11,7 +11,7 @@ export class Time {
     }
 
     format(pattern = 'YYYY-MM-DD') {
-        // 目前支持的格式有 YYYY MM DD HH mm ss SSS
+        // The currently supported format is YYYY MM DD HH mm ss SSS
         const year = this.date.getFullYear()
         const month = this.date.getMonth() + 1
         const day = this.date.getDate()

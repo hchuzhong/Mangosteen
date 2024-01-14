@@ -29,7 +29,7 @@ export const Bars = defineComponent({
                             </div>
                         </div>
                     )
-                }) : <div>没有数据</div> }
+                }) : <div>No more data</div> }
             </div>
         )
     }

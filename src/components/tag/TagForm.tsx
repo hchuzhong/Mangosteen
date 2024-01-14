@@ -14,7 +14,7 @@ export const TagForm = defineComponent({
     setup: (props, context) => {
         const router = useRouter()
         const kind = router.currentRoute.value.query.kind?.toString()
-        if (!kind) return () => <div>参数错误</div>
+        if (!kind) return () => <div>parameter error</div>
         const formData = reactive<Partial<Tag>>({
             id: undefined,
             name: '',
@@ -25,9 +25,9 @@ export const TagForm = defineComponent({
         const onSubmit = async (e: Event) => {
             e.preventDefault()
             const rules: Rules<typeof formData> = [
-                { key: 'name', type: 'required', message: '必填' },
-                { key: 'name', type: 'pattern', regex: /^.{1,4}$/, message: '只能填 1 到 4 个字符' },
-                { key: 'sign', type: 'required', message: '必填' },
+                { key: 'name', type: 'required', message: 'Name is required' },
+                { key: 'name', type: 'pattern', regex: /^.{1,4}$/, message: 'Only 1 to 4 characters are allowed' },
+                { key: 'sign', type: 'required', message: 'Symbol is required' },
             ]
             errors.value = validate(formData, rules)
             if (hasError(errors.value)) return
@@ -42,10 +42,10 @@ export const TagForm = defineComponent({
         })
         return () => (
             <Form onSubmit={onSubmit}>
-                <FormItem label='标签名(最多4个字符)' type='text' v-model={formData.name} error={errors.value['name']?.join(' ')} />
-                <FormItem label={'符号' + formData.sign} type='emojiSelect' v-model={formData.sign} error={errors.value['sign']?.join(' ')} />
-                <FormItem><p class={s.tips}>记账时长按标签即可进行编辑</p></FormItem>
-                <FormItem><Button type="submit" class={[s.formItem, s.button]}>确定</Button></FormItem>
+                <FormItem label='Tag Name(4 characters max)' type='text' v-model={formData.name} error={errors.value['name']?.join(' ')} />
+                <FormItem label={'Symbol' + formData.sign} type='emojiSelect' v-model={formData.sign} error={errors.value['sign']?.join(' ')} />
+                <FormItem><p class={s.tips}>Long press tabs for editing during bookkeeping</p></FormItem>
+                <FormItem><Button type="submit" class={[s.formItem, s.button]}>Confirm</Button></FormItem>
             </Form>
         )
     }

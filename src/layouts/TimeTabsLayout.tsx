@@ -59,11 +59,11 @@ export const TimeTabsLayout = defineComponent({
         const refOverlayVisible = ref(false)
         const onSubmitCustomTime = (e: Event) => {
             e.preventDefault()
-            if (refSelected.value === GlobalConst.customTime && props.hideThisYear) {
+            if (refSelected.value === GlobalConst.customTime) {
                 const diffTime = TimeFunc.wrapDateDiff(tempTime.startDate!, tempTime.endDate!)
-                if (diffTime <= 0) return Toast('开始时间不能大于结束时间')
+                if (diffTime <= 0) return Toast('The start time cannot be\n greater than the end time')
                 const moreThan60Days = diffTime >= 60 * TimeConst.DAY_MILLISECOND
-                if (moreThan60Days) return Toast('时间跨度不能超过 60 天')
+                if (moreThan60Days && props.hideThisYear) return Toast('The time span cannot\n exceed 60 days')
             }
             refOverlayVisible.value = false
             Object.assign(customTime, tempTime)
@@ -74,32 +74,32 @@ export const TimeTabsLayout = defineComponent({
         })
         return () => (
             <MainLayout>{{
-                title: () => '山竹记账',
+                title: () => 'Mangosteen Bookkeeping',
                 icon: () => <OverlayIcon />,
                 default: () => <>
                     {props.hideThisYear ?
                         <Tabs classPrefix='customTabs' v-model:selected={refSelected.value} onUpdate:selected={onUpdateSelectedTab} reRenderOnSelect={props.reRenderOnSelect}>
-                            <Tab name='本月' value={GlobalConst.curMonth}>
+                            <Tab name='This Month' value={GlobalConst.curMonth}>
                                 <props.component startDate={timeList[0].start.format()} endDate={timeList[0].end.format()} />
                             </Tab>
-                            <Tab name='上月' value={GlobalConst.lastMonth}>
+                            <Tab name='Last Month' value={GlobalConst.lastMonth}>
                                 <props.component startDate={timeList[1].start.format()} endDate={timeList[1].end.format()} />
                             </Tab>
-                            <Tab name='自定义时间' value={GlobalConst.customTime}>
+                            <Tab name='Custom Time' value={GlobalConst.customTime}>
                                 <props.component startDate={customTime.startDate} endDate={customTime.endDate} />
                             </Tab>
                         </Tabs> :
                         <Tabs classPrefix='customTabs' v-model:selected={refSelected.value} onUpdate:selected={onUpdateSelectedTab} reRenderOnSelect={props.reRenderOnSelect}>
-                            <Tab name='本月' value={GlobalConst.curMonth}>
+                            <Tab name='This Month' value={GlobalConst.curMonth}>
                                 <props.component startDate={timeList[0].start.format()} endDate={timeList[0].end.format()} />
                             </Tab>
-                            <Tab name='上月' value={GlobalConst.lastMonth}>
+                            <Tab name='Last Month' value={GlobalConst.lastMonth}>
                                 <props.component startDate={timeList[1].start.format()} endDate={timeList[1].end.format()} />
                             </Tab>
-                            <Tab name='今年' value={GlobalConst.curYear}>
+                            <Tab name='This Year' value={GlobalConst.curYear}>
                                 <props.component startDate={timeList[2].start.format()} endDate={timeList[2].end.format()} />
                             </Tab>
-                            <Tab name='自定义时间' value={GlobalConst.customTime}>
+                            <Tab name='Custom Time' value={GlobalConst.customTime}>
                                 <props.component startDate={customTime.startDate} endDate={customTime.endDate} />
                             </Tab>
                         </Tabs>
@@ -109,15 +109,15 @@ export const TimeTabsLayout = defineComponent({
                     </RouterLink>
                     <Overlay z-index={64} show={refOverlayVisible.value} class={s.overlay}>
                         <div class={s.overlay_inner}>
-                            <header>请选择时间</header>
+                            <header>Please Choose Time</header>
                             <main>
                                 <Form onSubmit={onSubmitCustomTime}>
-                                    <FormItem type='date' label='开始时间' v-model={tempTime.startDate} />
-                                    <FormItem type='date' label='结束时间' v-model={tempTime.endDate} />
+                                    <FormItem type='date' label='Start Date' v-model={tempTime.startDate} />
+                                    <FormItem type='date' label='end Date' v-model={tempTime.endDate} />
                                     <FormItem class={s.actions}>
                                         <div class={s.actions}>
-                                            <button type='button' onClick={() => refOverlayVisible.value = false}>取消</button>
-                                            <button type='submit'>确认</button>
+                                            <button type='button' onClick={() => refOverlayVisible.value = false}>Cancel</button>
+                                            <button type='submit'>Confirm</button>
                                         </div>
                                     </FormItem>
                                 </Form>
