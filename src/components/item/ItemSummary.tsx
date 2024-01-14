@@ -48,20 +48,20 @@ export const ItemSummary = defineComponent({
             itemStore.fetchNextPage(startDate, endDate)
         }
         return () => (
-            (!props.startDate || !props.endDate) ? <div>请先选择时间范围</div> :
+            (!props.startDate || !props.endDate) ? <div>Please select the time range first</div> :
             <div class={s.wrapper}>
                 {itemStore.items && itemStore.items.length ? (<>
                     <ul class={s.total}>
                         <li>
-                            <span>收入</span>
-                            <span><Money value={itemsBalance.income} /></span>
-                        </li>
-                        <li>
-                            <span>支出</span>
+                            <span>expenses</span>
                             <span><Money value={itemsBalance.expenses} /></span>
                         </li>
                         <li>
-                            <span>净收入</span>
+                            <span>income</span>
+                            <span><Money value={itemsBalance.income} /></span>
+                        </li>
+                        <li>
+                            <span>net income</span>
                             <span><Money value={itemsBalance.balance} /></span>
                         </li>
                     </ul>
@@ -83,18 +83,18 @@ export const ItemSummary = defineComponent({
                     </ol>
                     <div class={s.more}>
                     {itemStore.hasMore ?
-                        <Button onClick={fetchNextPage}>加载更多</Button> :
-                        <p>没有更多</p>
+                        <Button onClick={fetchNextPage}>Load More</Button> :
+                        <p>No More</p>
                     }
                     </div>
                 </>) : (<>
                     <Center class={s.pig_wrapper} direction='|'>
                         <Icon name='pig' class={s.pig} />
-                        <p>目前没有数据</p>
+                        <p>No data currently available</p>
                     </Center>
                     <div class={s.button_wrapper}>
                         <RouterLink to='/items/create'>
-                            <Button class={s.button}>开始记账</Button>
+                            <Button class={s.button}>Start Bookkeeping</Button>
                         </RouterLink>
                     </div>
                 </>)}

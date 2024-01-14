@@ -31,10 +31,10 @@ export const SignInPage = defineComponent({
         const onSumit = async (e: Event) => {
             e.preventDefault()
             errors.value = validate(formData, [
-                { key: 'email', type: 'required', message: '必填' },
-                { key: 'email', type: 'pattern', regex: /.+@.+/, message: '必须是邮箱地址' },
-                { key: 'code', type: 'required', message: '必填' },
-                { key: 'code', type: 'pattern', regex: /^\d{6}$/, message: '必须是六位数字' },
+                { key: 'email', type: 'required', message: 'Email is required' },
+                { key: 'email', type: 'pattern', regex: /.+@.+/, message: 'It must be an email address' },
+                { key: 'code', type: 'required', message: 'Validation code is required' },
+                { key: 'code', type: 'pattern', regex: /^\d{6}$/, message: 'The validation code must be six digits' },
             ])
             if (hasError(errors.value)) return
             const response = await http.post<{'jwt': string}>('/session', formData, {_autoLoading: true}).catch(onError)
@@ -60,19 +60,19 @@ export const SignInPage = defineComponent({
         }
         return () => (
             <MainLayout>{{
-                title: () => '登录',
+                title: () => 'Sign In',
                 icon: () => <BackIcon />,
                 default: () => (
                     <div>
                         <div class={s.logo}>
                             <Icon class={s.icon} name="mangosteen" />
-                            <h1 class={s.appName}>山竹记账</h1>
+                            <h2 class={s.appName}>Mangosteen Bookkeeping</h2>
                         </div>
                         <Form onSubmit={onSumit}>
-                            <FormItem label='邮箱地址' type='text' v-model={formData.email} error={errors.value.email?.[0]} placeholder='请输入邮箱，然后点击发送验证码' />
-                            <FormItem ref={refValidationCode} label='验证码' type='validationCode' v-model={formData.code} error={errors.value.code?.[0]} buttonLabel='发送验证码' countFrom={60} disabled={refDisabled.value} placeholder='请输入六位数字' onClick={onClickValidationCode} />
+                            <FormItem label='Email' type='text' v-model={formData.email} error={errors.value.email?.[0]} placeholder='Input your email and click Validation Code button' />
+                            <FormItem ref={refValidationCode} label='Validation Code' type='validationCode' v-model={formData.code} error={errors.value.code?.[0]} buttonLabel='Validation Code' countFrom={60} disabled={refDisabled.value} placeholder='Enter six digits' onClick={onClickValidationCode} />
                             <FormItem style={{ paddingTop: '96px' }}> 
-                                <Button type="submit">登录</Button>
+                                <Button type="submit">Sign In</Button>
                             </FormItem>
                         </Form>
                     </div>

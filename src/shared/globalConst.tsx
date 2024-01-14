@@ -1,4 +1,4 @@
-export const noKindText = '未分类'
+export const noKindText = 'not classified'
 export const noKindEmoji = '💰'
 
 export const GlobalConst: ObjectKindType & TimeType = {

@@ -80,7 +80,7 @@ export const FormItem = defineComponent({
                         onClick={() => { refDateVisible.value = true }}
                         class={[s.formItem, s.input]} />
                         <Popup position='bottom' v-model:show={refDateVisible.value}>
-                            <DatetimePicker modelValue={props.modelValue ? new Date(props.modelValue) : new Date()} type='date' title='选择年月日' 
+                            <DatetimePicker modelValue={props.modelValue ? new Date(props.modelValue) : new Date()} type='date' title='Choose Date' 
                             onConfirm={(date: Date) => {
                                 context.emit('update:modelValue', new Time(date).format())
                                 refDateVisible.value = false
@@ -94,7 +94,7 @@ export const FormItem = defineComponent({
                         placeholder={props.placeholder}
                         onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
                         class={[s.formItem, s.input, s.validationCodeInput, props.error ? s.error : '']} />
-                        <Button disabled={isCounting.value || props.disabled} class={[s.formItem, s.validationCodeButton]} onClick={props.onClick}>{isCounting.value ? `${count.value}秒后可重新发送` : props.buttonLabel}</Button>
+                        <Button disabled={isCounting.value || props.disabled} class={[s.formItem, s.validationCodeButton]} onClick={props.onClick}>{isCounting.value ? `Resable after ${count.value}s` : props.buttonLabel}</Button>
                     </>
                 case 'select':
                     return <select class={[s.formItem, s.select]} value={props.modelValue}

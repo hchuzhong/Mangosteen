@@ -6,6 +6,10 @@ import { history } from './shared/history'
 import '@svgstore'
 import { createPinia } from 'pinia'
 import { useMeStore } from './stores/useMeStore'
+import { Locale } from 'vant';
+import enUS from 'vant/es/locale/lang/en-US';
+
+Locale.use('en-US', enUS);
 
 const pinia = createPinia()
 const router = createRouter({ history, routes })

@@ -29,17 +29,17 @@ export const Overlay = defineComponent({
         })
         const onSignOut = async () => {
             await Dialog.confirm({
-                title: '确认',
-                message: '确认退出登录？'
+                title: 'Confirm',
+                message: 'Confirm to log out?'
             })
             localStorage.removeItem('jwt')
             window.location.reload()
         }
         const linkConfig: LinkConfigType = [
-            { to: '/items', iconName: 'data', text: '记账数据' },
-            { to: '/statistics', iconName: 'charts', text: '统计图表' },
-            { to: '/export', iconName: 'export', text: '导出数据' },
-            { to: '/notify', iconName: 'notify', text: '记账提醒' }
+            { to: '/items', iconName: 'data', text: 'Accounting Data' },
+            { to: '/statistics', iconName: 'charts', text: 'Statical Chart' },
+            { to: '/export', iconName: 'export', text: 'Derive Data' },
+            { to: '/notify', iconName: 'notify', text: 'Bookkeeping Reminder' }
         ]
         return () => <>
             <div class={s.mask} onClick={props.onClose}></div>
@@ -48,11 +48,11 @@ export const Overlay = defineComponent({
                     {me.value ? 
                         <div>
                             <h2 class={s.email}>{me.value.email}</h2>
-                            <p onClick={onSignOut}>点击这里退出登录</p>
+                            <p onClick={onSignOut}>click here to log out</p>
                         </div> :
                         <RouterLink to={routePath} class={s.avatar}>
-                            <h2>未登录用户</h2>
-                            <p>点击这里登录</p>
+                            <h2>Unlogged User</h2>
+                            <p>click here to log in</p>
                         </RouterLink>
                     }
                 </section>

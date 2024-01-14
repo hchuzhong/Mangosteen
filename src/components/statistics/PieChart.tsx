@@ -8,7 +8,7 @@ const echartsOption = {
         trigger: 'item',
         formatter: (data: {name: string, value: number, percent: number}) => {
             const { name, value, percent } = data
-            return `${name}: ￥${formatMoney(value)} 占比 ${percent}%`
+            return `${name}: ￥${formatMoney(value)} occupied ${percent}%`
         }
     },
     grid: [
