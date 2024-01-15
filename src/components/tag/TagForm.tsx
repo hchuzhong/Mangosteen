@@ -26,7 +26,7 @@ export const TagForm = defineComponent({
             e.preventDefault()
             const rules: Rules<typeof formData> = [
                 { key: 'name', type: 'required', message: 'Name is required' },
-                { key: 'name', type: 'pattern', regex: /^.{1,4}$/, message: 'Only 1 to 4 characters are allowed' },
+                { key: 'name', type: 'pattern', regex: /^.{1,18}$/, message: 'Only 1 to 18 characters are allowed' },
                 { key: 'sign', type: 'required', message: 'Symbol is required' },
             ]
             errors.value = validate(formData, rules)
@@ -42,8 +42,8 @@ export const TagForm = defineComponent({
         })
         return () => (
             <Form onSubmit={onSubmit}>
-                <FormItem label='Tag Name(4 characters max)' type='text' v-model={formData.name} error={errors.value['name']?.join(' ')} />
-                <FormItem label={'Symbol' + formData.sign} type='emojiSelect' v-model={formData.sign} error={errors.value['sign']?.join(' ')} />
+                <FormItem label='Tag Name(18 characters max)' type='text' v-model={formData.name} error={errors.value['name']?.join(' ')} />
+                <FormItem label={'Symbol ' + formData.sign} type='emojiSelect' v-model={formData.sign} error={errors.value['sign']?.join(' ')} />
                 <FormItem><p class={s.tips}>Long press tabs for editing during bookkeeping</p></FormItem>
                 <FormItem><Button type="submit" class={[s.formItem, s.button]}>Confirm</Button></FormItem>
             </Form>

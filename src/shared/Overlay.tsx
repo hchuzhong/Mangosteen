@@ -38,7 +38,7 @@ export const Overlay = defineComponent({
         const linkConfig: LinkConfigType = [
             { to: '/items', iconName: 'data', text: 'Accounting Data' },
             { to: '/statistics', iconName: 'charts', text: 'Statical Chart' },
-            { to: '/export', iconName: 'export', text: 'Derive Data' },
+            { to: '/export', iconName: 'export', text: 'Export Data' },
             { to: '/notify', iconName: 'notify', text: 'Bookkeeping Reminder' }
         ]
         return () => <>
