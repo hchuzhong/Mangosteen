@@ -11,6 +11,9 @@
         top: 0;
         background: var(--navbar-bg-end);
         overflow-x: auto;
+        &::-webkit-scrollbar {
+            display: none;
+        }
         > li {
             flex-grow: 1;
             flex-shrink: 0;

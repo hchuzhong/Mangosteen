@@ -76,7 +76,7 @@ export const ItemSummary = defineComponent({
                                     <span class={s.tag}>{item.tags && item.tags[0] ? item.tags[0].name : noKindText}</span>
                                     <span class={s[item.kind]}>￥<Money value={item.amount} /></span>
                                     </div>
-                                    <div class={s.time}><DateTime value={item.happened_at} /></div>
+                                    <div class={s.time}><DateTime value={item.happened_at} format="YYYY-MM-DD" /></div>
                                 </div>
                             </li>
                         ))}

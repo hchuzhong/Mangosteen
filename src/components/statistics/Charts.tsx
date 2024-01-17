@@ -85,12 +85,17 @@ export const Charts = defineComponent({
         return () => (
             <div class={s.wrapper}>
                 <FormItem label='Kind' type='select' options={[
-                    { value: GlobalConst.expenses, text: 'income' },
-                    { value: GlobalConst.income, text: 'expenses' },
+                    { value: GlobalConst.expenses, text: 'expenses' },
+                    { value: GlobalConst.income, text: 'income' },
                 ]} v-model={kind.value} />
-                <LineChart data={betterData1.value} />
-                <PieChart data={betterData2.value} />
-                <Bars data={betterData3.value} />
+                {!data1.value.length ?
+                    <p>No data currently available</p> :
+                    <>
+                        <LineChart data={betterData1.value} />
+                        <PieChart data={betterData2.value} />
+                        <Bars data={betterData3.value} />
+                    </>
+                }
             </div>
         )
     }

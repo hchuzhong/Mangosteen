@@ -41,23 +41,15 @@ export const Tags = defineComponent({
         return () => <>
             <div class={s.tags_wrapper} onTouchmove={onTouchMove}>
                 <RouterLink to={`/tags/create?kind=${props.kind}`} class={s.tag}>
-                    <div class={s.sign}>
-                        <Icon name="add" class={s.createTag} />
-                    </div>
-                    <div class={s.name}>
-                        Add
-                    </div>
+                    <div class={s.sign}><Icon name="add" class={s.createTag} /></div>
+                    <div class={s.name}>Add</div>
                 </RouterLink>
                 {tags.value.map(tag =>
                     <div class={[s.tag, props.selected === tag.id ? s.selected : '']} 
                         onClick={() => context.emit('update:selected', tag.id)}
                         onTouchstart={(e) => onTouchStart(e, tag)} onTouchend={onTouchEnd}>
-                        <div class={s.sign}>
-                            {tag.sign}
-                        </div>
-                        <div class={s.name}>
-                            {tag.name}
-                        </div>
+                        <div class={s.sign}>{tag.sign}</div>
+                        <div class={s.name}>{tag.name}</div>
                     </div>
                 )}
             </div>

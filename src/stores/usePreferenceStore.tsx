@@ -7,6 +7,7 @@ type State = {
     statisticsTab: Partial<keyof TimeType>
     statisticsKind: KindType
     statisticsCustomTime: CustomTimeType
+    itemCreateKind: KindType
 }
 
 export const usePreferenceStore = defineStore<string, State>('preference', {
@@ -16,5 +17,6 @@ export const usePreferenceStore = defineStore<string, State>('preference', {
         statisticsTab: GlobalConst.curMonth,
         statisticsKind: GlobalConst.expenses,
         statisticsCustomTime: {},
+        itemCreateKind: GlobalConst.expenses,
     })
 })

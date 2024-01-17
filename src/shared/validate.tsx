@@ -47,6 +47,7 @@ export const validate = <T extends FData>(formData: T, rules: Rules<T>) => {
 }
 
 function isEmpty(value: JSONValue) {
+    if (typeof value === 'object') return Object.values(value as Object).length === 0
     return value === null || value === undefined || value === ''
 }
 

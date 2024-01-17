@@ -11,6 +11,7 @@ import { AxiosError } from 'axios';
 import { BackIcon } from '../../shared/BackIcon';
 import { hasError, validate } from '../../shared/validate';
 import { GlobalConst } from '../../shared/globalConst';
+import { usePreferenceStore } from '../../stores/usePreferenceStore';
 
 export const ItemCreate = defineComponent({
     props: {
@@ -19,8 +20,9 @@ export const ItemCreate = defineComponent({
         }
     },
     setup: (props, context) => {
+        const preferenceStore = usePreferenceStore()
         const formData = reactive<Partial<Item>>({
-            kind: GlobalConst.expenses,
+            kind: preferenceStore.statisticsKind,
             tag_ids: [],
             amount: 0,
             happened_at: new Date().toISOString()
