@@ -8,6 +8,7 @@ import { svgstore } from './src/vite_plugins/svgstore';
 // https://vitejs.dev/config/
 export default defineConfig(({command}) => {
   return {
+    base: 'https://mangosteen-test.oss-cn-guangzhou.aliyuncs.com/',
     define: command === 'build' ? { DEBUG: false } : { DEBUG: true },
     build: {
       rollupOptions: {
