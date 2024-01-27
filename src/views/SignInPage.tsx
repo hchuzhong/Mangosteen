@@ -10,6 +10,7 @@ import { useBool } from '../hooks/useBool';
 import { useRoute, useRouter } from 'vue-router';
 import { BackIcon } from '../shared/BackIcon';
 import { useMeStore } from '../stores/useMeStore';
+import { Toast } from 'vant';
 
 export const SignInPage = defineComponent({
     props: {
@@ -50,6 +51,7 @@ export const SignInPage = defineComponent({
             throw error
         }
         const onClickValidationCode = async (e: Event) => {
+            if (!formData.email) return Toast('Email is required')
             enable()
             await http.post('/validation_codes', {email: formData.email}, {_autoLoading: true}).catch(onError).finally(disable)
             refValidationCode.value.startCount()
