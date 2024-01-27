@@ -12,6 +12,7 @@ import { BackIcon } from '../../shared/BackIcon';
 import { hasError, validate } from '../../shared/validate';
 import { GlobalConst } from '../../shared/globalConst';
 import { usePreferenceStore } from '../../stores/usePreferenceStore';
+import { onUnmounted } from 'vue';
 
 export const ItemCreate = defineComponent({
     props: {
@@ -22,7 +23,7 @@ export const ItemCreate = defineComponent({
     setup: (props, context) => {
         const preferenceStore = usePreferenceStore()
         const formData = reactive<Partial<Item>>({
-            kind: preferenceStore.statisticsKind,
+            kind: preferenceStore.itemCreateKind,
             tag_ids: [],
             amount: 0,
             happened_at: new Date().toISOString()
@@ -59,6 +60,9 @@ export const ItemCreate = defineComponent({
             await http.post< Resource<Item>>('/items', formData, {_mock: 'itemCreate', _autoLoading: true}).catch(onError)
             router.push('/items')
         }
+        onUnmounted(() => {
+            preferenceStore.itemCreateKind = formData.kind!
+        })
         return () => (
             <MainLayout class={s.layout}>{{
                 title: () => 'write down an account',
